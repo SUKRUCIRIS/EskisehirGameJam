@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include "dynamic.h"
 
 //Virtual Resolution----------------------------------
 
@@ -26,3 +27,22 @@ typedef struct button {
 }button;
 
 char RenderButtonCustom(button* b, Font* f);
+
+//Animation-------------------------------------------
+
+typedef struct animation {
+	Texture2D* maintexture;
+	DA* sourcerects;//Rectangle DA
+	Rectangle* dest;
+	unsigned int framedurationms;
+	char disabled;
+	double animationstartms;
+}animation;
+
+void AddAnimationCustom(animation* anim);
+
+void RemoveAnimationCustom(animation* anim);
+
+void ClearAnimationCustom(void);
+
+void DrawAnimationsCustom(void);
