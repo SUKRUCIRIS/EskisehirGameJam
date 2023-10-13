@@ -1,4 +1,5 @@
 #include "custom_raylib.h"
+#include "game.h"
 
 //SUKRU CIRIS 2023
 //msvc compiler
@@ -8,73 +9,28 @@
 int main() {
 	InitWindow(GetScreenWidth(), GetScreenHeight(), "GameJam");
 
-    SetWindowState(FLAG_WINDOW_HIGHDPI | FLAG_VSYNC_HINT | FLAG_WINDOW_ALWAYS_RUN |
-        FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_MAXIMIZED | FLAG_FULLSCREEN_MODE | FLAG_MSAA_4X_HINT);
+	SetWindowState(FLAG_WINDOW_HIGHDPI | FLAG_VSYNC_HINT | FLAG_WINDOW_ALWAYS_RUN |
+		FLAG_WINDOW_UNDECORATED | FLAG_WINDOW_MAXIMIZED | FLAG_FULLSCREEN_MODE | FLAG_MSAA_4X_HINT);
 
-    SetTargetFPS(60);
+	SetTargetFPS(60);
 
-    SetExitKey(0);
+	SetExitKey(0);
 
-    ToggleFullscreen();
+	ToggleFullscreen();
 
-    InitRaylibCustom(1920, 1080);
+	InitRaylibCustom(1920, 1080);
 
-    button btn = {
-        .position = {50,50, 200,50},
-        .backcolor = {100,20,100,255},
-        .frontcolor = {200,30,200,255},
-        .text = "QUIT",
-        .textcolor = {255,255,255,255}
-    };
+	while (!WindowShouldClose()) {
 
-    Font defont = LoadFontEx("data/x.ttf", 40, 0, 0);
+		if (game() == 0) {
+			break;
+		}
 
-    Texture2D walking = LoadTexture("data/walk.png");
+	}
 
-    Rectangle character = { 500,500,128,128 };
+	CloseRaylibCustom();
 
-    animation walkanim = {
-        .animationstartms = -1,
-        .dest = &character,
-        .disabled = 0,
-        .framedurationms = 200,
-        .maintexture = &walking
-    };
-
-    walkanim.sourcerects = create_DA(sizeof(Rectangle));
-    Rectangle src = { 0,0,220,220 };
-    pushback_DA(walkanim.sourcerects, &src);
-    src.x = 220;
-    pushback_DA(walkanim.sourcerects, &src);
-    src.x = 440;
-    pushback_DA(walkanim.sourcerects, &src);
-    src.x = 660;
-    pushback_DA(walkanim.sourcerects, &src);
-
-    AddAnimationCustom(&walkanim);
-
-    while (!WindowShouldClose())
-    {
-        BeginDrawingCustom();
-
-        ClearBackground(RAYWHITE);
-
-        if (RenderButtonCustom(&btn, &defont)) {
-            break;
-        }
-
-        DrawAnimationsCustom();
-
-        EndDrawingCustom();
-    }
-
-    delete_DA(walkanim.sourcerects);
-
-    UnloadFont(defont);
-
-    CloseRaylibCustom();
-
-    CloseWindow();
+	CloseWindow();
 
 	return 0;
 }

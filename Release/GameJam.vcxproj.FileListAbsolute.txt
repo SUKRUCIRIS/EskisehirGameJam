@@ -1,1 +1,2 @@
 C:\Dosyalar\1-c projeleri\GameJam\Release\GameJam.exe
+C:\Projects\EskisehirGameJam\Release\GameJam.exe

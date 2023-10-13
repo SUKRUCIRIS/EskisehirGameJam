@@ -73,6 +73,19 @@ char RenderButtonCustom(button* b, Font* f) {
 	return 0;
 }
 
+char RenderButtonImageCustom(buttonImage* b) {
+	if (CheckCollisionPointRec(*GetMousePositionCustom(), b->position)) {
+		DrawTexturePro(*b->frontimage, b->srcfront, b->position, origin, 0, WHITE);
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+			return 1;
+		}
+	}
+	else {
+		DrawTexturePro(*b->backimage, b->srcback, b->position, origin, 0, WHITE);
+	}
+	return 0;
+}
+
 void AddAnimationCustom(animation* anim) {
 	pushback_DA(animations, &anim);
 }

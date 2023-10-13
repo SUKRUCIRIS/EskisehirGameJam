@@ -26,7 +26,17 @@ typedef struct button {
 	Color frontcolor;
 }button;
 
+typedef struct buttonImage {
+	Rectangle position;
+	Rectangle srcback;
+	Rectangle srcfront;
+	Texture2D* backimage;
+	Texture2D* frontimage;
+}buttonImage;
+
 char RenderButtonCustom(button* b, Font* f);
+
+char RenderButtonImageCustom(buttonImage* b);
 
 //Animation-------------------------------------------
 
