@@ -23,7 +23,9 @@ typedef struct character {
 
 char game(void);
 
-void physicCharacter(character* x, DA* walls, Rectangle* door);
+void collisionRes(Rectangle* dynamicr, Rectangle* staticr);
+
+void physicCharacter(character* x, DA* walls);
 
 void inputCharacter(character* x, char playernum);
 

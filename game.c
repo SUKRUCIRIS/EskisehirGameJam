@@ -1,11 +1,50 @@
 #include "game.h"
 #include <math.h>
+#include <stdlib.h>
 
-Vector2 origingame = { 0,0 };
+void collisionRes(Rectangle* dynamicr, Rectangle* staticr) {
+	if (CheckCollisionRecs(*dynamicr, *staticr)) {
+		float x1_overlap = max(dynamicr->x, staticr->x);
+		float y1_overlap = max(dynamicr->y, staticr->y);
+		float x2_overlap = min(dynamicr->x + dynamicr->width, staticr->x + staticr->width);
+		float y2_overlap = min(dynamicr->y + dynamicr->height, staticr->y + staticr->height);
 
-void physicCharacter(character* x, DA* walls, Rectangle* door) {
-	x->position.x += x->xspeed;
-	x->position.y += x->yspeed;
+		// Calculate the width and height of the overlapping rectangle
+		float overlapX = x2_overlap - x1_overlap;
+		float overlapY = y2_overlap - y1_overlap;
+
+		if (overlapX < overlapY) {
+			if (dynamicr->x < staticr->x) {
+				dynamicr->x = staticr->x - dynamicr->width;
+			}
+			else {
+				dynamicr->x = staticr->x + staticr->width;
+			}
+		}
+		else {
+			if (dynamicr->y < staticr->y) {
+				dynamicr->y = staticr->y - dynamicr->height;
+			}
+			else {
+				dynamicr->y = staticr->y + staticr->height;
+			}
+		}
+	}
+}
+
+void physicCharacter(character* x, DA* walls) {
+	int physicsloopnumber = 10;
+	Rectangle* walls_data = get_data_DA(walls);
+	float xstep = (x->xspeed / physicsloopnumber);
+	float ystep = (x->yspeed / physicsloopnumber);
+
+	for (int i = 0; i < physicsloopnumber; i++) {
+		x->position.x += xstep;
+		x->position.y += ystep;
+		for (unsigned int i = 0; i < get_size_DA(walls); i++) {
+			collisionRes(&x->position, &walls_data[i]);
+		}
+	}
 }
 
 void inputCharacter(character* x, char playernum) {
@@ -103,6 +142,7 @@ void inputCharacter(character* x, char playernum) {
 }
 
 void renderCharacter(character* x) {
+	Vector2 origingame = { 0,0 };
 	DrawTexturePro(*x->texture, x->source, x->position, origingame, 0, WHITE);
 }
 
@@ -172,6 +212,12 @@ char game(void) {
 		.dashingstartms = 0
 	};
 
+	DA* walls = create_DA(sizeof(Rectangle));
+	pushback_DA(walls, &arenaleft);
+	pushback_DA(walls, &arenaright);
+	pushback_DA(walls, &arenatop);
+	pushback_DA(walls, &arenabottom);
+
 	while (1) {
 		BeginDrawingCustom();
 
@@ -192,8 +238,8 @@ char game(void) {
 		inputCharacter(&cat1, 1);
 		inputCharacter(&mouse1, 2);
 
-		physicCharacter(&cat1, 0, 0);
-		physicCharacter(&mouse1, 0, 0);
+		physicCharacter(&cat1, walls);
+		physicCharacter(&mouse1, walls);
 
 		renderCharacter(&cat1);
 		renderCharacter(&mouse1);
@@ -201,6 +247,6 @@ char game(void) {
 		EndDrawingCustom();
 	}
 	UnloadFont(defont);
-
+	delete_DA(walls);
 	return 0;
 }
