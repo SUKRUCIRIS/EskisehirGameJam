@@ -164,17 +164,17 @@ char game(void) {
 	   .textcolor = {255,255,255,255}
 	};
 
-	float arenawidth = 1000;
-	float arenaheight = 850;
-	float doorwidth = 70;
-	float doorheight = 35;
+	float arenax = 513;
+	float arenay = 229;
+	float arenawidth = 894;
+	float arenaheight = 779;
 
-	Rectangle arenaleft = { (1920 - arenawidth) / 2 - 10,1080 - arenaheight,10,arenaheight };
-	Rectangle arenaright = { 1920 - ((1920 - arenawidth) / 2),1080 - arenaheight,10,arenaheight };
-	Rectangle arenatop = { (1920 - arenawidth) / 2 - 10,1080 - arenaheight,arenawidth + 20,10 };
-	Rectangle arenabottom = { (1920 - arenawidth) / 2 - 10,1080,arenawidth + 20,10 };
+	Rectangle arenaleft = { arenax - 10,arenay,10,arenaheight };
+	Rectangle arenaright = { arenax + arenawidth,arenay,10,arenaheight };
+	Rectangle arenatop = { arenax - 10,arenay - 10,arenawidth + 20,10 };
+	Rectangle arenabottom = { arenax - 10,arenay + arenaheight,arenawidth + 20,10 };
 
-	Rectangle Door = { (arenatop.width - doorwidth) / 2 + arenatop.x,arenatop.y - doorheight + 10,doorwidth,doorheight + 5 };
+	Rectangle Door = { 918,188,77,44 };
 
 	Vector2 catstartpos = { (arenatop.width - 64) / 2 + arenatop.x,400 };
 	Vector2 mousestartpos = { (arenatop.width - 48) / 2 + arenatop.x,1000 };
@@ -271,11 +271,73 @@ char game(void) {
 	character* current_cat_player = &player1cat;
 	character* current_mouse_player = &player2mouse;
 
+	Rectangle cheese1 = { 0,0,10,10 };
+	Rectangle cheese2 = { 0,0,10,10 };
+	Rectangle cheese3 = { 0,0,10,10 };
+
+	Color cheesecolor = { 255,208,0,255 };
+
+	char bottomcheese = 0;
+
+	int gatheredcheese = 0;
+
+	srand((unsigned int)GetTime());
+
 	for (int i = 0; i < 8; i++) {
 		current_cat_player->collisionbox1.x = catstartpos.x;
 		current_cat_player->collisionbox1.y = catstartpos.y;
 		current_mouse_player->collisionbox1.x = mousestartpos.x;
 		current_mouse_player->collisionbox1.y = mousestartpos.y;
+
+		bottomcheese = 0;
+
+		gatheredcheese = 0;
+
+	try0:
+
+		cheese1.x = arenaleft.x + arenaleft.width + rand() % (int)(arenaright.x - arenaleft.x - arenaleft.width);
+		cheese1.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height - 10);
+
+		if (cheese1.y > arenatop.y + arenatop.height + arenaleft.height / 2) {
+			bottomcheese++;
+		}
+
+		if (CheckCollisionRecs(bannedcatarea, cheese1)) {
+			goto try0;
+		}
+
+	try1:
+
+		cheese2.x = arenaleft.x + arenaleft.width + rand() % (int)(arenaright.x - arenaleft.x - arenaleft.width);
+		cheese2.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height);
+
+		if (cheese2.y > arenatop.y + arenatop.height + arenaleft.height / 2) {
+			bottomcheese++;
+			if (bottomcheese > 1) {
+				goto try1;
+			}
+		}
+
+		if (CheckCollisionRecs(bannedcatarea, cheese2)) {
+			goto try1;
+		}
+
+	try2:
+
+		cheese3.x = arenaleft.x + arenaleft.width + rand() % (int)(arenaright.x - arenaleft.x - arenaleft.width);
+		cheese3.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height);
+
+		if (cheese3.y > arenatop.y + arenatop.height + arenaleft.height / 2) {
+			bottomcheese++;
+			if (bottomcheese > 1) {
+				goto try2;
+			}
+		}
+
+		if (CheckCollisionRecs(bannedcatarea, cheese3)) {
+			goto try2;
+		}
+
 		while (1) {
 			BeginDrawingCustom();
 
@@ -286,12 +348,16 @@ char game(void) {
 				break;
 			}
 
-			DrawRectangleRec(arenaleft, BLACK);
-			DrawRectangleRec(arenaright, BLACK);
-			DrawRectangleRec(arenatop, BLACK);
-			DrawRectangleRec(arenabottom, BLACK);
-			DrawRectangleRec(Door, RED);
-			DrawRectangleRec(bannedcatarea, ORANGE);
+			//DrawRectangleRec(arenaleft, BLACK);
+			//DrawRectangleRec(arenaright, BLACK);
+			//DrawRectangleRec(arenatop, BLACK);
+			//DrawRectangleRec(arenabottom, BLACK);
+			//DrawRectangleRec(Door, RED);
+			//DrawRectangleRec(bannedcatarea, ORANGE);
+
+			DrawRectangleRec(cheese1, cheesecolor);
+			DrawRectangleRec(cheese2, cheesecolor);
+			DrawRectangleRec(cheese3, cheesecolor);
 
 			inputCharacter(current_cat_player, current_cat_player->player);
 			inputCharacter(current_mouse_player, current_mouse_player->player);
@@ -332,10 +398,10 @@ char game(void) {
 
 			if (CheckCollisionRecs(current_mouse_player->collisionbox1, Door)) {
 				if (current_mouse_player->player == 1) {
-					player1score += 3;
+					player1score += gatheredcheese;
 				}
 				if (current_mouse_player->player == 2) {
-					player2score += 3;
+					player2score += gatheredcheese;
 				}
 				break;
 			}
@@ -367,6 +433,18 @@ char game(void) {
 			}
 			else {
 				bannedcatlastenter = 0;
+			}
+			if (CheckCollisionRecs(cheese1, current_mouse_player->collisionbox1)) {
+				gatheredcheese++;
+				cheese1.x = -1000;
+			}
+			if (CheckCollisionRecs(cheese2, current_mouse_player->collisionbox1)) {
+				gatheredcheese++;
+				cheese2.x = -1000;
+			}
+			if (CheckCollisionRecs(cheese3, current_mouse_player->collisionbox1)) {
+				gatheredcheese++;
+				cheese3.x = -1000;
 			}
 		}
 		if (quitted == 1) {

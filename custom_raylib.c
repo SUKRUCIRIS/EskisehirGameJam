@@ -74,18 +74,33 @@ char RenderButtonCustom(button* b, Font* f) {
 }
 
 char RenderButtonImageCustom(buttonImage* b) {
-	if (CheckCollisionPointRec(*GetMousePositionCustom(), b->position)) {
-		origin.x = 0;
-		origin.y = 0;
-		DrawTexturePro(*b->frontimage, b->srcfront, b->position, origin, 0, WHITE);
-		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			return 1;
+	if (b->pressed == 0) {
+		if (CheckCollisionPointRec(*GetMousePositionCustom(), b->clickposition)) {
+			origin.x = 0;
+			origin.y = 0;
+			DrawTexturePro(*b->frontimage, *b->srcfront, *b->renderposition, origin, 0, WHITE);
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+				b->pressed = 1;
+			}
+		}
+		else {
+			origin.x = 0;
+			origin.y = 0;
+			DrawTexturePro(*b->backimage, *b->srcback, *b->renderposition, origin, 0, WHITE);
 		}
 	}
 	else {
-		origin.x = 0;
-		origin.y = 0;
-		DrawTexturePro(*b->backimage, b->srcback, b->position, origin, 0, WHITE);
+		if (CheckCollisionPointRec(*GetMousePositionCustom(), b->clickposition)) {
+			origin.x = 0;
+			origin.y = 0;
+			DrawTexturePro(*b->clickedimage, *b->srcclicked, *b->renderposition, origin, 0, WHITE);
+			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+				return 1;
+			}
+		}
+		else {
+			b->pressed = 0;
+		}
 	}
 	return 0;
 }
@@ -135,7 +150,7 @@ void DrawAnimationsCustom(void) {
 				anims[i]->animationstartms = GetTime() * 1000;
 			}
 			currenttime = GetTime() * 1000;
-			whichframe = (unsigned int)((currenttime - anims[i]->animationstartms) / anims[i]->framedurationms) 
+			whichframe = (unsigned int)((currenttime - anims[i]->animationstartms) / anims[i]->framedurationms)
 				% get_size_DA(anims[i]->sourcerects);
 			origin.x = 0;
 			origin.y = 0;

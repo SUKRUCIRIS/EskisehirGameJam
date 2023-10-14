@@ -27,11 +27,15 @@ typedef struct button {
 }button;
 
 typedef struct buttonImage {
-	Rectangle position;
-	Rectangle srcback;
-	Rectangle srcfront;
+	Rectangle clickposition;
+	Rectangle* renderposition;
+	Rectangle* srcback;
+	Rectangle* srcfront;
+	Rectangle* srcclicked;
 	Texture2D* backimage;
 	Texture2D* frontimage;
+	Texture2D* clickedimage;
+	char pressed;
 }buttonImage;
 
 typedef struct buttonText {
