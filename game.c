@@ -40,24 +40,27 @@ void physicCharacter(character* x, DA* walls) {
 	float ystep = (x->yspeed / physicsloopnumber);
 
 	for (int i = 0; i < physicsloopnumber; i++) {
-		x->position.x += xstep;
-		x->position.y += ystep;
+		x->collisionbox1.x += xstep;
+		x->collisionbox1.y += ystep;
 		for (unsigned int i = 0; i < get_size_DA(walls); i++) {
-			collisionRes(&x->position, &walls_data[i]);
+			collisionRes(&x->collisionbox1, &walls_data[i]);
 		}
 	}
 
-	x->position2.x = x->position.x + (x->position.width - x->position2.width) / 2;
-	x->position2.y = x->position.y + (x->position.height - x->position2.height) / 2;
+	x->collisionbox2.x = x->collisionbox1.x + (x->collisionbox1.width - x->collisionbox2.width) / 2;
+	x->collisionbox2.y = x->collisionbox1.y + (x->collisionbox1.height - x->collisionbox2.height) / 2;
+
+	x->position.x = x->collisionbox1.x + (x->collisionbox1.width - x->position.width) / 2;
+	x->position.y = x->collisionbox1.y + (x->collisionbox1.height - x->position.height) / 2;
 }
 
 void inputCharacter(character* x, char playernum) {
-	if (x->dashing == 1 && GetTime() * 1000 - x->dashingstartms >= x->dashdurationms) {
-		if (x->type == 0) {
+	if (x->dashing == 1 && GetTime() * 1000 - x->dashingstartms >= x->stats->dashdurationms) {
+		if (x->stats->type == 0) {
 			x->xspeed *= 0.1f;
 			x->yspeed *= 0.1f;
 		}
-		else if (x->type == 1) {
+		else if (x->stats->type == 1) {
 			x->xspeed *= 0.6f;
 			x->yspeed *= 0.6f;
 		}
@@ -68,80 +71,80 @@ void inputCharacter(character* x, char playernum) {
 	if (playernum == 1) {
 		if (x->dashing == 0) {
 			if (IsKeyDown(KEY_W)) {
-				x->yspeed -= x->accel * GetFrameTime();
+				x->yspeed -= x->stats->accel * GetFrameTime();
 			}
 			else if (x->yspeed < 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_S)) {
-				x->yspeed += x->accel * GetFrameTime();
+				x->yspeed += x->stats->accel * GetFrameTime();
 			}
 			else if (x->yspeed > 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_A)) {
-				x->xspeed -= x->accel * GetFrameTime();
+				x->xspeed -= x->stats->accel * GetFrameTime();
 			}
 			else if (x->xspeed < 0) {
 				x->xspeed = 0;
 			}
 			if (IsKeyDown(KEY_D)) {
-				x->xspeed += x->accel * GetFrameTime();
+				x->xspeed += x->stats->accel * GetFrameTime();
 			}
 			else if (x->xspeed > 0) {
 				x->xspeed = 0;
 			}
 		}
-		if (IsKeyPressed(KEY_LEFT_CONTROL) && x->stamina >= x->dashcost && (x->yspeed != 0 || x->xspeed != 0) && x->dashing == 0) {
+		if (IsKeyPressed(KEY_LEFT_CONTROL) && x->stamina >= x->stats->dashcost && (x->yspeed != 0 || x->xspeed != 0) && x->dashing == 0) {
 			x->dashing = 1;
 			x->dashingstartms = GetTime() * 1000;
-			x->stamina -= x->dashcost;
+			x->stamina -= x->stats->dashcost;
 		}
 	}
 	else if (playernum == 2) {
 		if (x->dashing == 0) {
 			if (IsKeyDown(KEY_UP)) {
-				x->yspeed -= x->accel * GetFrameTime();
+				x->yspeed -= x->stats->accel * GetFrameTime();
 			}
 			else if (x->yspeed < 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_DOWN)) {
-				x->yspeed += x->accel * GetFrameTime();
+				x->yspeed += x->stats->accel * GetFrameTime();
 			}
 			else if (x->yspeed > 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_LEFT)) {
-				x->xspeed -= x->accel * GetFrameTime();
+				x->xspeed -= x->stats->accel * GetFrameTime();
 			}
 			else if (x->xspeed < 0) {
 				x->xspeed = 0;
 			}
 			if (IsKeyDown(KEY_RIGHT)) {
-				x->xspeed += x->accel * GetFrameTime();
+				x->xspeed += x->stats->accel * GetFrameTime();
 			}
 			else if (x->xspeed > 0) {
 				x->xspeed = 0;
 			}
 		}
-		if (IsKeyPressed(KEY_RIGHT_SHIFT) && x->stamina >= x->dashcost && (x->yspeed != 0 || x->xspeed != 0) && x->dashing == 0) {
+		if (IsKeyPressed(KEY_RIGHT_SHIFT) && x->stamina >= x->stats->dashcost && (x->yspeed != 0 || x->xspeed != 0) && x->dashing == 0) {
 			x->dashing = 1;
 			x->dashingstartms = GetTime() * 1000;
 			x->dashingendms = 0;
-			x->stamina -= x->dashcost;
+			x->stamina -= x->stats->dashcost;
 		}
 	}
 
 	if (x->dashing == 0) {
-		if (sqrtf(x->xspeed * x->xspeed + x->yspeed * x->yspeed) >= x->maxspeed) {
-			float scale = x->maxspeed / sqrtf(x->xspeed * x->xspeed + x->yspeed * x->yspeed);
+		if (sqrtf(x->xspeed * x->xspeed + x->yspeed * x->yspeed) >= x->stats->maxspeed) {
+			float scale = x->stats->maxspeed / sqrtf(x->xspeed * x->xspeed + x->yspeed * x->yspeed);
 			x->xspeed *= scale;
 			x->yspeed *= scale;
 		}
 	}
 	else {
-		float scale = x->dashspeed / sqrtf(x->xspeed * x->xspeed + x->yspeed * x->yspeed);
+		float scale = x->stats->dashspeed / sqrtf(x->xspeed * x->xspeed + x->yspeed * x->yspeed);
 		x->xspeed *= scale;
 		x->yspeed *= scale;
 	}
@@ -149,7 +152,7 @@ void inputCharacter(character* x, char playernum) {
 
 void renderCharacter(character* x) {
 	Vector2 origingame = { 0,0 };
-	DrawTexturePro(*x->texture, x->source, x->position, origingame, 0, WHITE);
+	DrawTexturePro(x->stats->portrait, x->stats->portraitsrc, x->position, origingame, 0, WHITE);
 }
 
 char game(void) {
@@ -173,25 +176,15 @@ char game(void) {
 
 	Rectangle Door = { (arenatop.width - doorwidth) / 2 + arenatop.x,arenatop.y - doorheight + 10,doorwidth,doorheight + 5 };
 
-	Texture2D catimage = LoadTexture("data/cat.png");
-	Texture2D mouseimage = LoadTexture("data/mouse.png");
-	Texture2D bg = LoadTexture("data/ck.png");
+	Vector2 catstartpos = { (arenatop.width - 64) / 2 + arenatop.x,400 };
+	Vector2 mousestartpos = { (arenatop.width - 48) / 2 + arenatop.x,1000 };
 
-	character cat1 = {
-		.stamina = 100,
-		.maxstamina = 100,
-		.staminaregen = 60,
-		.accel = 20,
-		.maxspeed = 6,
-		.dashspeed = 15,
-		.dashcost = 100,
-		.dashdurationms = 300,
-		.name = "Tom",
-		.texture = &catimage,
-		.position = {(arenatop.width - 64) / 2 + arenatop.x,400,64,64},
-		.position2 = {0},
-		.source = {0,0,64,64},
-		.type = 0,
+	character player1cat = {
+		.stats = get_player1()->cat,
+		.stamina = get_player1()->cat->maxstamina,
+		.position = {catstartpos.x,catstartpos.y,64,64},
+		.collisionbox1 = {catstartpos.x,catstartpos.y,64,64},
+		.collisionbox2 = {catstartpos.x,catstartpos.y,64,64},
 		.xspeed = 0,
 		.yspeed = 0,
 		.dashing = 0,
@@ -200,21 +193,26 @@ char game(void) {
 		.player = 1
 	};
 
-	character mouse1 = {
-		.stamina = 100,
-		.maxstamina = 100,
-		.staminaregen = 75,
-		.accel = 25,
-		.maxspeed = 8,
-		.dashspeed = 17,
-		.dashcost = 100,
-		.dashdurationms = 100,
-		.name = "Jerry",
-		.texture = &mouseimage,
-		.position = {(arenatop.width - 48) / 2 + arenatop.x,1000,48,48},
-		.position2 = {(arenatop.width - 48) / 2 + arenatop.x + 20,1020,8,8},
-		.source = {0,0,534,459},
-		.type = 1,
+	character player1mouse = {
+		.stats = get_player1()->mouse,
+		.stamina = get_player1()->mouse->maxstamina,
+		.position = {mousestartpos.x,mousestartpos.y,48,48},
+		.collisionbox1 = {mousestartpos.x,mousestartpos.y,48,48},
+		.collisionbox2 = {mousestartpos.x + 20,mousestartpos.y + 20,8,8},
+		.xspeed = 0,
+		.yspeed = 0,
+		.dashing = 0,
+		.dashingstartms = 0,
+		.dashingendms = 0,
+		.player = 1
+	};
+
+	character player2cat = {
+		.stats = get_player2()->cat,
+		.stamina = get_player2()->cat->maxstamina,
+		.position = {catstartpos.x,catstartpos.y,64,64},
+		.collisionbox1 = {catstartpos.x,catstartpos.y,64,64},
+		.collisionbox2 = {catstartpos.x,catstartpos.y,64,64},
 		.xspeed = 0,
 		.yspeed = 0,
 		.dashing = 0,
@@ -222,6 +220,22 @@ char game(void) {
 		.dashingendms = 0,
 		.player = 2
 	};
+
+	character player2mouse = {
+		.stats = get_player2()->mouse,
+		.stamina = get_player2()->mouse->maxstamina,
+		.position = {mousestartpos.x,mousestartpos.y,48,48},
+		.collisionbox1 = {mousestartpos.x,mousestartpos.y,48,48},
+		.collisionbox2 = {mousestartpos.x + 20,mousestartpos.y + 20,8,8},
+		.xspeed = 0,
+		.yspeed = 0,
+		.dashing = 0,
+		.dashingstartms = 0,
+		.dashingendms = 0,
+		.player = 2
+	};
+
+	Texture2D bg = LoadTexture("data/ck.png");
 
 	char cat1_stamina_text[30] = { 0 };
 	char mouse1_stamina_text[30] = { 0 };
@@ -254,15 +268,16 @@ char game(void) {
 	Rectangle bannedcatarea = { arenatop.x + 10,arenatop.y + 10,arenawidth,128 };
 	double bannedcatlastenter = 0;
 
-	for (int i = 0; i < 100; i++) {
-		cat1.position.x = (arenatop.width - 64) / 2 + arenatop.x;
-		cat1.position.y = 400;
-		mouse1.position.x = (arenatop.width - 48) / 2 + arenatop.x;
-		mouse1.position.y = 1000;
+	character* current_cat_player = &player1cat;
+	character* current_mouse_player = &player2mouse;
+
+	for (int i = 0; i < 8; i++) {
+		current_cat_player->collisionbox1.x = catstartpos.x;
+		current_cat_player->collisionbox1.y = catstartpos.y;
+		current_mouse_player->collisionbox1.x = mousestartpos.x;
+		current_mouse_player->collisionbox1.y = mousestartpos.y;
 		while (1) {
 			BeginDrawingCustom();
-
-			ClearBackground(RAYWHITE);
 
 			DrawTexture(bg, 0, 0, WHITE);
 
@@ -278,27 +293,27 @@ char game(void) {
 			DrawRectangleRec(Door, RED);
 			DrawRectangleRec(bannedcatarea, ORANGE);
 
-			inputCharacter(&cat1, cat1.player);
-			inputCharacter(&mouse1, mouse1.player);
+			inputCharacter(current_cat_player, current_cat_player->player);
+			inputCharacter(current_mouse_player, current_mouse_player->player);
 
-			physicCharacter(&cat1, walls);
-			physicCharacter(&mouse1, walls);
+			physicCharacter(current_cat_player, walls);
+			physicCharacter(current_mouse_player, walls);
 
-			renderCharacter(&cat1);
-			renderCharacter(&mouse1);
+			renderCharacter(current_cat_player);
+			renderCharacter(current_mouse_player);
 
-			cat1.stamina += cat1.staminaregen * GetFrameTime();
-			if (cat1.stamina > cat1.maxstamina) {
-				cat1.stamina = cat1.maxstamina;
+			current_cat_player->stamina += current_cat_player->stats->staminaregen * GetFrameTime();
+			if (current_cat_player->stamina > current_cat_player->stats->maxstamina) {
+				current_cat_player->stamina = current_cat_player->stats->maxstamina;
 			}
 
-			mouse1.stamina += mouse1.staminaregen * GetFrameTime();
-			if (mouse1.stamina > mouse1.maxstamina) {
-				mouse1.stamina = mouse1.maxstamina;
+			current_mouse_player->stamina += current_mouse_player->stats->staminaregen * GetFrameTime();
+			if (current_mouse_player->stamina > current_mouse_player->stats->maxstamina) {
+				current_mouse_player->stamina = current_mouse_player->stats->maxstamina;
 			}
 
-			sprintf(cat1_stamina_text, "Cat: %.1f/%.1f", cat1.stamina, cat1.maxstamina);
-			sprintf(mouse1_stamina_text, "Mouse: %.1f/%.1f", mouse1.stamina, mouse1.maxstamina);
+			sprintf(cat1_stamina_text, "Cat: %.1f/%.1f", current_cat_player->stamina, current_cat_player->stats->maxstamina);
+			sprintf(mouse1_stamina_text, "Mouse: %.1f/%.1f", current_mouse_player->stamina, current_mouse_player->stats->maxstamina);
 
 			sprintf(player1_score_text, "Player1: %d", player1score);
 			sprintf(player2_score_text, "PLayer2: %d", player2score);
@@ -315,32 +330,32 @@ char game(void) {
 
 			EndDrawingCustom();
 
-			if (CheckCollisionRecs(mouse1.position, Door)) {
-				if (mouse1.player == 1) {
+			if (CheckCollisionRecs(current_mouse_player->collisionbox1, Door)) {
+				if (current_mouse_player->player == 1) {
 					player1score += 3;
 				}
-				if (mouse1.player == 2) {
+				if (current_mouse_player->player == 2) {
 					player2score += 3;
 				}
 				break;
 			}
-			if (CheckCollisionRecs(mouse1.position, cat1.position) && mouse1.dashing == 0
-				&& !(GetTime() * 1000 - mouse1.dashingendms <= 350 && !CheckCollisionRecs(mouse1.position2, cat1.position))) {
-				if (cat1.player == 1) {
+			if (CheckCollisionRecs(current_mouse_player->collisionbox1, current_cat_player->collisionbox1) && current_mouse_player->dashing == 0
+				&& !(GetTime() * 1000 - current_mouse_player->dashingendms <= 350 && !CheckCollisionRecs(current_mouse_player->collisionbox2, current_cat_player->collisionbox1))) {
+				if (current_cat_player->player == 1) {
 					player1score += 3;
 				}
-				if (cat1.player == 2) {
+				if (current_cat_player->player == 2) {
 					player2score += 3;
 				}
 				break;
 			}
-			if (CheckCollisionRecs(bannedcatarea, cat1.position)) {
+			if (CheckCollisionRecs(bannedcatarea, current_cat_player->collisionbox1)) {
 				if (bannedcatlastenter != 0) {
 					if (GetTime() - bannedcatlastenter >= 3) {
-						if (mouse1.player == 1) {
+						if (current_mouse_player->player == 1) {
 							player1score += 3;
 						}
-						if (mouse1.player == 2) {
+						if (current_mouse_player->player == 2) {
 							player2score += 3;
 						}
 						break;
@@ -357,13 +372,15 @@ char game(void) {
 		if (quitted == 1) {
 			break;
 		}
-		quitted = cat1.player;
-		cat1.player = mouse1.player;
-		mouse1.player = quitted;
-		quitted = 0;
+		if (current_cat_player == &player1cat) {
+			current_cat_player = &player2cat;
+			current_mouse_player = &player1mouse;
+		}
+		else {
+			current_cat_player = &player1cat;
+			current_mouse_player = &player2mouse;
+		}
 	}
-	UnloadTexture(catimage);
-	UnloadTexture(mouseimage);
 	UnloadTexture(bg);
 	UnloadFont(defont);
 	delete_DA(walls);

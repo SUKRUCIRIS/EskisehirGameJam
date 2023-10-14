@@ -143,15 +143,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="characterselect.c" />
     <ClCompile Include="custom_raylib.c" />
     <ClCompile Include="dynamic.c" />
     <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="menus.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="characterselect.h" />
     <ClInclude Include="custom_raylib.h" />
     <ClInclude Include="dynamic.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="menus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

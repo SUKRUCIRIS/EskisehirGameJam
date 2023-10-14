@@ -75,13 +75,40 @@ char RenderButtonCustom(button* b, Font* f) {
 
 char RenderButtonImageCustom(buttonImage* b) {
 	if (CheckCollisionPointRec(*GetMousePositionCustom(), b->position)) {
+		origin.x = 0;
+		origin.y = 0;
 		DrawTexturePro(*b->frontimage, b->srcfront, b->position, origin, 0, WHITE);
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 			return 1;
 		}
 	}
 	else {
+		origin.x = 0;
+		origin.y = 0;
 		DrawTexturePro(*b->backimage, b->srcback, b->position, origin, 0, WHITE);
+	}
+	return 0;
+}
+
+void InitButtonTextCustom(buttonText* b, Font* f) {
+	origin = MeasureTextEx(*f, b->text, (float)f->baseSize, 0);
+	b->position.width = origin.x;
+	b->position.height = origin.y;
+}
+
+char RenderButtonTextCustom(buttonText* b, Font* f) {
+	if (CheckCollisionPointRec(*GetMousePositionCustom(), b->position)) {
+		origin.x = b->position.x;
+		origin.y = b->position.y;
+		DrawTextEx(*f, b->text, origin, (float)f->baseSize, 0, b->frontcolor);
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+			return 1;
+		}
+	}
+	else {
+		origin.x = b->position.x;
+		origin.y = b->position.y;
+		DrawTextEx(*f, b->text, origin, (float)f->baseSize, 0, b->backcolor);
 	}
 	return 0;
 }

@@ -1,5 +1,6 @@
 #include "custom_raylib.h"
 #include "game.h"
+#include "menus.h"
 
 //SUKRU CIRIS 2023
 //msvc compiler
@@ -20,10 +21,29 @@ int main() {
 
 	InitRaylibCustom(1920, 1080);
 
-	while (!WindowShouldClose()) {
+	intro();
 
-		if (game() == 0) {
+	char x = 0;
+
+	while (1) {
+
+		x = mainmenu();
+
+		if (x == 1) {
 			break;
+		}
+		else if (x == 0) {
+			initcharacterstarts();
+			x = selectscreen();
+
+			if (x == 0) {
+
+				x = game();
+				destroycharacterstarts();
+			}
+			else {
+				destroycharacterstarts();
+			}
 		}
 
 	}

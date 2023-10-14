@@ -1,27 +1,20 @@
 #pragma once
 #include "custom_raylib.h"
+#include "characterselect.h"
 
 typedef struct character {
-	float maxstamina;
+	characterstart* stats;
 	float stamina;
-	float staminaregen;
-	float accel;
-	float maxspeed;
 	float xspeed;
 	float yspeed;
 	Rectangle position;
-	Rectangle position2;//smaller collision box after the dash
-	Rectangle source;
-	float dashspeed;
-	float dashcost;
-	float dashdurationms;
-	const char* name;
-	Texture2D* texture;
-	char type;//0 cat, 1 mouse
+	Rectangle collisionbox1;
+	Rectangle collisionbox2;//smaller collision box after the dash
 	char dashing;
 	double dashingstartms;
 	double dashingendms;
-	char player;//1, 2
+	char player;//1,2
+	char animselect;//1,...,9
 }character;
 
 char game(void);

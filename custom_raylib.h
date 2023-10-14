@@ -34,9 +34,20 @@ typedef struct buttonImage {
 	Texture2D* frontimage;
 }buttonImage;
 
+typedef struct buttonText {
+	const char* text;
+	Color backcolor;
+	Color frontcolor;
+	Rectangle position;//set only x and y
+}buttonText;
+
 char RenderButtonCustom(button* b, Font* f);
 
 char RenderButtonImageCustom(buttonImage* b);
+
+char RenderButtonTextCustom(buttonText* b, Font* f);
+
+void InitButtonTextCustom(buttonText* b, Font* f);
 
 //Animation-------------------------------------------
 
@@ -44,6 +55,7 @@ typedef struct animation {
 	Texture2D* maintexture;
 	DA* sourcerects;//Rectangle DA
 	Rectangle* dest;
+	Vector2 collisiondimensions;//the centered collision box dimensions in the dest render location for the animation batch
 	unsigned int framedurationms;
 	char disabled;
 	double animationstartms;

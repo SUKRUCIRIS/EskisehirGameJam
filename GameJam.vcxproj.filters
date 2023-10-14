@@ -27,6 +27,12 @@
     <ClCompile Include="game.c">
       <Filter>Kaynak Dosyalar</Filter>
     </ClCompile>
+    <ClCompile Include="characterselect.c">
+      <Filter>Kaynak Dosyalar</Filter>
+    </ClCompile>
+    <ClCompile Include="menus.c">
+      <Filter>Kaynak Dosyalar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="custom_raylib.h">
@@ -36,6 +42,12 @@
       <Filter>Kaynak Dosyalar</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
+      <Filter>Kaynak Dosyalar</Filter>
+    </ClInclude>
+    <ClInclude Include="characterselect.h">
+      <Filter>Kaynak Dosyalar</Filter>
+    </ClInclude>
+    <ClInclude Include="menus.h">
       <Filter>Kaynak Dosyalar</Filter>
     </ClInclude>
   </ItemGroup>
