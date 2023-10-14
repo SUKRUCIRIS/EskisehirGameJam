@@ -107,6 +107,11 @@ void destroycharacterstarts(void) {
 }
 
 char selectscreen(void) {
+	player1.cat = 0;
+	player1.mouse = 0;
+	player2.cat = 0;
+	player2.mouse = 0;
+
 	Rectangle characterback = { 460,0,1000,1080 };
 	Rectangle p1back = { 0,0,460,1080 };
 	Rectangle p2back = { 1460,0,460,1080 };

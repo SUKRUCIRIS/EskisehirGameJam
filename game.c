@@ -283,6 +283,11 @@ char game(void) {
 
 	srand((unsigned int)GetTime());
 
+	Vector2 catindicator = { current_cat_player->position.x, current_cat_player->position.y - 20 };
+	Vector2 mouseindicator = { current_mouse_player->position.x, current_mouse_player->position.y - 20 };
+
+	double gamestart = 0;
+
 	for (int i = 0; i < 8; i++) {
 		current_cat_player->collisionbox1.x = catstartpos.x;
 		current_cat_player->collisionbox1.y = catstartpos.y;
@@ -393,6 +398,25 @@ char game(void) {
 			DrawTextEx(defont, player2_score_text, player2scorepos, 40, 0, WHITE);
 
 			DrawTextEx(defont, arena_number_text, arena_number_pos, 40, 0, WHITE);
+
+			catindicator.x = current_cat_player->position.x;
+			catindicator.y = current_cat_player->position.y - 20;
+			mouseindicator.x = current_mouse_player->position.x;
+			mouseindicator.y = current_mouse_player->position.y - 20;
+
+			if (current_cat_player->player == 1) {
+				DrawTextEx(defont, "P1", catindicator, 20, 0, BLUE);
+			}
+			else if (current_cat_player->player == 2) {
+				DrawTextEx(defont, "P2", catindicator, 20, 0, RED);
+			}
+
+			if (current_mouse_player->player == 1) {
+				DrawTextEx(defont, "P1", mouseindicator, 20, 0, BLUE);
+			}
+			else if (current_mouse_player->player == 2) {
+				DrawTextEx(defont, "P2", mouseindicator, 20, 0, RED);
+			}
 
 			EndDrawingCustom();
 
