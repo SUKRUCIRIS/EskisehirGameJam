@@ -10,6 +10,7 @@ typedef struct character {
 	float xspeed;
 	float yspeed;
 	Rectangle position;
+	Rectangle position2;//smaller collision box after the dash
 	Rectangle source;
 	float dashspeed;
 	float dashcost;
@@ -19,6 +20,8 @@ typedef struct character {
 	char type;//0 cat, 1 mouse
 	char dashing;
 	double dashingstartms;
+	double dashingendms;
+	char player;//1, 2
 }character;
 
 char game(void);
