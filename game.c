@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+Vector2 origingame = { 0,0 };
+
 void collisionRes(Rectangle* dynamicr, Rectangle* staticr) {
 	if (CheckCollisionRecs(*dynamicr, *staticr)) {
 		float x1_overlap = max(dynamicr->x, staticr->x);
@@ -151,18 +153,12 @@ void inputCharacter(character* x, char playernum) {
 }
 
 void renderCharacter(character* x) {
-	Vector2 origingame = { 0,0 };
 	DrawTexturePro(x->stats->portrait, x->stats->portraitsrc, x->position, origingame, 0, WHITE);
 }
 
 char game(void) {
-	button btn = {
-	   .position = {50,50, 200,50},
-	   .backcolor = {100,20,100,255},
-	   .frontcolor = {200,30,200,255},
-	   .text = "QUIT",
-	   .textcolor = {255,255,255,255}
-	};
+
+	HideCursor();
 
 	float arenax = 513;
 	float arenay = 229;
@@ -237,45 +233,36 @@ char game(void) {
 
 	Texture2D bg = LoadTexture("data/ck.png");
 
-	char cat1_stamina_text[30] = { 0 };
-	char mouse1_stamina_text[30] = { 0 };
-
-	Vector2 cat1_sta_pos = { 50, 400 };
-	Vector2 mouse1_sta_pos = { 50, 500 };
-
 	DA* walls = create_DA(sizeof(Rectangle));
 	pushback_DA(walls, &arenaleft);
 	pushback_DA(walls, &arenaright);
 	pushback_DA(walls, &arenatop);
 	pushback_DA(walls, &arenabottom);
 
-	Font defont = LoadFontEx("data/x.ttf", 50, 0, 0);
+	Font defont = LoadFontEx("data/x.ttf", 300, 0, 0);
 
 	char quitted = 0;
 
 	int player1score = 0;
 	int player2score = 0;
 
-	Vector2 player1scorepos = { 1600,400 };
-	Vector2 player2scorepos = { 1600,500 };
+	Vector2 playerscorepos = { 898,57 };
 
-	char player1_score_text[30] = { 0 };
-	char player2_score_text[30] = { 0 };
+	char player_score_text[10] = { 0 };
 
-	char arena_number_text[30] = { 0 };
-	Vector2 arena_number_pos = { 1600,300 };
+	char arena_number_text[10] = { 0 };
+	Vector2 arena_number_pos = { 894,14 };
 
-	Rectangle bannedcatarea = { arenatop.x + 10,arenatop.y + 10,arenawidth,128 };
+	Rectangle bannedcatarea = { arenatop.x + 10,arenatop.y + 10,arenawidth,169 };
 	double bannedcatlastenter = 0;
 
 	character* current_cat_player = &player1cat;
 	character* current_mouse_player = &player2mouse;
 
-	Rectangle cheese1 = { 0,0,10,10 };
-	Rectangle cheese2 = { 0,0,10,10 };
-	Rectangle cheese3 = { 0,0,10,10 };
-
-	Color cheesecolor = { 255,208,0,255 };
+	Rectangle cheese1 = { 0,0,32,32 };
+	Rectangle cheese2 = { 0,0,32,32 };
+	Rectangle cheese3 = { 0,0,32,32 };
+	Rectangle cheesesrc = { 0,0,32,32 };
 
 	char bottomcheese = 0;
 
@@ -286,7 +273,64 @@ char game(void) {
 	Vector2 catindicator = { current_cat_player->position.x, current_cat_player->position.y - 20 };
 	Vector2 mouseindicator = { current_mouse_player->position.x, current_mouse_player->position.y - 20 };
 
-	double gamestart = 0;
+	double turnstart = 0;
+
+	char counting = 1;
+
+	Texture2D cheese_texture = LoadTexture("data/cheese.png");
+
+	Texture2D stamina_p1_0 = LoadTexture("data/stamina_p1/0.png");
+	Texture2D stamina_p1_1 = LoadTexture("data/stamina_p1/1.png");
+	Texture2D stamina_p1_2 = LoadTexture("data/stamina_p1/2.png");
+	Texture2D stamina_p1_3 = LoadTexture("data/stamina_p1/3.png");
+	Texture2D stamina_p1_4 = LoadTexture("data/stamina_p1/4.png");
+	Texture2D stamina_p1_5 = LoadTexture("data/stamina_p1/5.png");
+
+	Texture2D stamina_p2_0 = LoadTexture("data/stamina_p2/0.png");
+	Texture2D stamina_p2_1 = LoadTexture("data/stamina_p2/1.png");
+	Texture2D stamina_p2_2 = LoadTexture("data/stamina_p2/2.png");
+	Texture2D stamina_p2_3 = LoadTexture("data/stamina_p2/3.png");
+	Texture2D stamina_p2_4 = LoadTexture("data/stamina_p2/4.png");
+	Texture2D stamina_p2_5 = LoadTexture("data/stamina_p2/5.png");
+
+	Texture2D count3 = LoadTexture("data/countdown/3.png");
+	Texture2D count2 = LoadTexture("data/countdown/2.png");
+	Texture2D count1 = LoadTexture("data/countdown/1.png");
+	Texture2D countgo = LoadTexture("data/countdown/go.png");
+
+	Texture2D cat_p1 = LoadTexture("data/cat_p1.png");
+	Texture2D mouse_p1 = LoadTexture("data/mouse_p1.png");
+	Texture2D p1p2 = LoadTexture("data/p1p2.png");
+
+	Texture2D mid1 = LoadTexture("data/mid_game/1.png");
+	Texture2D mid2 = LoadTexture("data/mid_game/2.png");
+	Texture2D mid3 = LoadTexture("data/mid_game/3.png");
+	Texture2D mid4 = LoadTexture("data/mid_game/4.png");
+	Texture2D mid5 = LoadTexture("data/mid_game/5.png");
+	Texture2D mid6 = LoadTexture("data/mid_game/6.png");
+	Texture2D mid7 = LoadTexture("data/mid_game/7.png");
+	Texture2D midp1fare = LoadTexture("data/mid_game/p1fare.png");
+	Texture2D midp1kedi = LoadTexture("data/mid_game/p1kedi.png");
+	Texture2D kedidead = LoadTexture("data/kedidead.png");
+
+	Rectangle screen = { 0,0,1920,1080 };
+
+	char catbantext[10] = { 0 };
+
+	Vector2 catbanpos = { arenaright.x - 40,arenatop.y + arenatop.height + 5 };
+
+	Color catbancolor = { 156,2,28,255 };
+
+	Vector2 mid_p2_pos = { 1209,450 };
+	Vector2 mid_p1_pos = { 595,450 };
+	char mid_p1_text[10] = { 0 };
+	char mid_p2_text[10] = { 0 };
+
+	Color kedideadcolor = { 255,255,255,0 };
+
+	char kedideadstate = 0;//0 up, 1 down
+
+	double kedideadstatetime = 0;
 
 	for (int i = 0; i < 8; i++) {
 		current_cat_player->collisionbox1.x = catstartpos.x;
@@ -301,7 +345,7 @@ char game(void) {
 	try0:
 
 		cheese1.x = arenaleft.x + arenaleft.width + rand() % (int)(arenaright.x - arenaleft.x - arenaleft.width);
-		cheese1.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height - 10);
+		cheese1.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height - 32);
 
 		if (cheese1.y > arenatop.y + arenatop.height + arenaleft.height / 2) {
 			bottomcheese++;
@@ -314,7 +358,7 @@ char game(void) {
 	try1:
 
 		cheese2.x = arenaleft.x + arenaleft.width + rand() % (int)(arenaright.x - arenaleft.x - arenaleft.width);
-		cheese2.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height);
+		cheese2.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height - 32);
 
 		if (cheese2.y > arenatop.y + arenatop.height + arenaleft.height / 2) {
 			bottomcheese++;
@@ -330,7 +374,7 @@ char game(void) {
 	try2:
 
 		cheese3.x = arenaleft.x + arenaleft.width + rand() % (int)(arenaright.x - arenaleft.x - arenaleft.width);
-		cheese3.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height);
+		cheese3.y = arenatop.y + arenatop.height + rand() % (int)(arenaleft.height - 32);
 
 		if (cheese3.y > arenatop.y + arenatop.height + arenaleft.height / 2) {
 			bottomcheese++;
@@ -343,35 +387,125 @@ char game(void) {
 			goto try2;
 		}
 
+		turnstart = GetTime();
+
+		counting = 1;
+
+		current_cat_player->xspeed = 0;
+		current_cat_player->yspeed = 0;
+
+		current_mouse_player->xspeed = 0;
+		current_mouse_player->yspeed = 0;
+
 		while (1) {
 			BeginDrawingCustom();
 
 			DrawTexture(bg, 0, 0, WHITE);
 
-			if (RenderButtonCustom(&btn, &defont)) {
+			if (IsKeyPressed(KEY_ESCAPE) && !counting) {
 				quitted = 1;
 				break;
 			}
 
-			//DrawRectangleRec(arenaleft, BLACK);
-			//DrawRectangleRec(arenaright, BLACK);
-			//DrawRectangleRec(arenatop, BLACK);
-			//DrawRectangleRec(arenabottom, BLACK);
-			//DrawRectangleRec(Door, RED);
-			//DrawRectangleRec(bannedcatarea, ORANGE);
+			DrawTexturePro(cheese_texture, cheesesrc, cheese1, origingame, 0, WHITE);
+			DrawTexturePro(cheese_texture, cheesesrc, cheese2, origingame, 0, WHITE);
+			DrawTexturePro(cheese_texture, cheesesrc, cheese3, origingame, 0, WHITE);
 
-			DrawRectangleRec(cheese1, cheesecolor);
-			DrawRectangleRec(cheese2, cheesecolor);
-			DrawRectangleRec(cheese3, cheesecolor);
+			if (current_cat_player->player == 1) {
+				DrawTexturePro(cat_p1, screen, screen, origingame, 0, WHITE);
+			}
+			else {
+				DrawTexturePro(mouse_p1, screen, screen, origingame, 0, WHITE);
+			}
 
-			inputCharacter(current_cat_player, current_cat_player->player);
-			inputCharacter(current_mouse_player, current_mouse_player->player);
+			DrawTexturePro(p1p2, screen, screen, origingame, 0, WHITE);
+
+			if (current_cat_player->player == 1) {
+				if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (1.0f / 5)) {
+					DrawTexturePro(stamina_p1_0, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (2.0f / 5)) {
+					DrawTexturePro(stamina_p1_1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (3.0f / 5)) {
+					DrawTexturePro(stamina_p1_2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (4.0f / 5)) {
+					DrawTexturePro(stamina_p1_3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina) {
+					DrawTexturePro(stamina_p1_4, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(stamina_p1_5, screen, screen, origingame, 0, WHITE);
+				}
+
+				if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (1.0f / 5)) {
+					DrawTexturePro(stamina_p2_0, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (2.0f / 5)) {
+					DrawTexturePro(stamina_p2_1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (3.0f / 5)) {
+					DrawTexturePro(stamina_p2_2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (4.0f / 5)) {
+					DrawTexturePro(stamina_p2_3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina) {
+					DrawTexturePro(stamina_p2_4, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(stamina_p2_5, screen, screen, origingame, 0, WHITE);
+				}
+			}
+			else {
+				if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (1.0f / 5)) {
+					DrawTexturePro(stamina_p2_0, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (2.0f / 5)) {
+					DrawTexturePro(stamina_p2_1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (3.0f / 5)) {
+					DrawTexturePro(stamina_p2_2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina * (4.0f / 5)) {
+					DrawTexturePro(stamina_p2_3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_cat_player->stamina < current_cat_player->stats->maxstamina) {
+					DrawTexturePro(stamina_p2_4, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(stamina_p2_5, screen, screen, origingame, 0, WHITE);
+				}
+
+				if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (1.0f / 5)) {
+					DrawTexturePro(stamina_p1_0, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (2.0f / 5)) {
+					DrawTexturePro(stamina_p1_1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (3.0f / 5)) {
+					DrawTexturePro(stamina_p1_2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina * (4.0f / 5)) {
+					DrawTexturePro(stamina_p1_3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (current_mouse_player->stamina < current_mouse_player->stats->maxstamina) {
+					DrawTexturePro(stamina_p1_4, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(stamina_p1_5, screen, screen, origingame, 0, WHITE);
+				}
+			}
+
+			if (!counting) {
+				inputCharacter(current_cat_player, current_cat_player->player);
+				inputCharacter(current_mouse_player, current_mouse_player->player);
+			}
 
 			physicCharacter(current_cat_player, walls);
 			physicCharacter(current_mouse_player, walls);
-
-			renderCharacter(current_cat_player);
-			renderCharacter(current_mouse_player);
 
 			current_cat_player->stamina += current_cat_player->stats->staminaregen * GetFrameTime();
 			if (current_cat_player->stamina > current_cat_player->stats->maxstamina) {
@@ -383,22 +517,17 @@ char game(void) {
 				current_mouse_player->stamina = current_mouse_player->stats->maxstamina;
 			}
 
-			sprintf(cat1_stamina_text, "Cat: %.1f/%.1f", current_cat_player->stamina, current_cat_player->stats->maxstamina);
-			sprintf(mouse1_stamina_text, "Mouse: %.1f/%.1f", current_mouse_player->stamina, current_mouse_player->stats->maxstamina);
+			sprintf(player_score_text, "%d-%d", player1score, player2score);
 
-			sprintf(player1_score_text, "Player1: %d", player1score);
-			sprintf(player2_score_text, "PLayer2: %d", player2score);
+			sprintf(arena_number_text, "turn %d", i);
 
-			sprintf(arena_number_text, "Turn: %d", i);
+			if (counting == 0) {
+				playerscorepos.x = MeasureTextEx(defont, player_score_text, 80, 0).x;
+				playerscorepos.x = (1920 - playerscorepos.x) / 2;
+				DrawTextEx(defont, player_score_text, playerscorepos, 80, 0, WHITE);
 
-			DrawTextEx(defont, cat1_stamina_text, cat1_sta_pos, 40, 0, WHITE);
-			DrawTextEx(defont, mouse1_stamina_text, mouse1_sta_pos, 40, 0, WHITE);
-
-			DrawTextEx(defont, player1_score_text, player1scorepos, 40, 0, WHITE);
-			DrawTextEx(defont, player2_score_text, player2scorepos, 40, 0, WHITE);
-
-			DrawTextEx(defont, arena_number_text, arena_number_pos, 40, 0, WHITE);
-
+				DrawTextEx(defont, arena_number_text, arena_number_pos, 50, 0, WHITE);
+			}
 			catindicator.x = current_cat_player->position.x;
 			catindicator.y = current_cat_player->position.y - 20;
 			mouseindicator.x = current_mouse_player->position.x;
@@ -418,7 +547,64 @@ char game(void) {
 				DrawTextEx(defont, "P2", mouseindicator, 20, 0, RED);
 			}
 
-			EndDrawingCustom();
+			if (counting == 1 && i == 0) {
+				if (GetTime() - turnstart <= 1) {
+					DrawTexturePro(count3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (GetTime() - turnstart <= 2) {
+					DrawTexturePro(count2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (GetTime() - turnstart <= 3) {
+					DrawTexturePro(count1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (GetTime() - turnstart <= 4) {
+					DrawTexturePro(countgo, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					counting = 0;
+				}
+			}
+			else if (counting == 1 && i != 0) {
+				if (i == 1) {
+					DrawTexturePro(mid1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 2) {
+					DrawTexturePro(mid2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 3) {
+					DrawTexturePro(mid3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 4) {
+					DrawTexturePro(mid4, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 5) {
+					DrawTexturePro(mid5, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 6) {
+					DrawTexturePro(mid6, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 7) {
+					DrawTexturePro(mid7, screen, screen, origingame, 0, WHITE);
+				}
+				if (current_cat_player->player == 1) {
+					DrawTexturePro(midp1kedi, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(midp1fare, screen, screen, origingame, 0, WHITE);
+				}
+				if (GetTime() - turnstart > 1) {
+					counting = 0;
+				}
+				sprintf(mid_p1_text, "%d", player1score);
+				sprintf(mid_p2_text, "%d", player2score);
+				mid_p1_pos = MeasureTextEx(defont, mid_p1_text, 300, 0);
+				mid_p1_pos.y = 450;
+				mid_p1_pos.x = 730 - mid_p1_pos.x;
+				DrawTextEx(defont, mid_p1_text, mid_p1_pos, 300, 0, WHITE);
+				mid_p2_pos.y = 450;
+				mid_p2_pos.x = 1195;
+				DrawTextEx(defont, mid_p2_text, mid_p2_pos, 300, 0, WHITE);
+			}
 
 			if (CheckCollisionRecs(current_mouse_player->collisionbox1, Door)) {
 				if (current_mouse_player->player == 1) {
@@ -450,6 +636,30 @@ char game(void) {
 						}
 						break;
 					}
+					else {
+						sprintf(catbantext, "%d", 3 - (int)(GetTime() - bannedcatlastenter));
+						DrawTextPro(defont, catbantext, catbanpos, origingame, 0, 50, 0, catbancolor);
+						DrawTexturePro(kedidead, screen, screen, origingame, 0, kedideadcolor);
+						if (kedideadstate == 0) {
+							if (kedideadcolor.a >= 225) {
+								kedideadcolor.a = 255;
+								kedideadstate = 1;
+								kedideadstatetime = GetTime() * 1000;
+							}
+							else {
+								kedideadcolor.a += 30;
+							}
+						}
+						else if (kedideadstate == 1 && GetTime() * 1000 - kedideadstatetime > 100) {
+							if (kedideadcolor.a <= 30) {
+								kedideadcolor.a = 0;
+								kedideadstate = 0;
+							}
+							else {
+								kedideadcolor.a -= 30;
+							}
+						}
+					}
 				}
 				else {
 					bannedcatlastenter = GetTime();
@@ -470,6 +680,10 @@ char game(void) {
 				gatheredcheese++;
 				cheese3.x = -1000;
 			}
+			renderCharacter(current_cat_player);
+			renderCharacter(current_mouse_player);
+
+			EndDrawingCustom();
 		}
 		if (quitted == 1) {
 			break;
@@ -483,8 +697,51 @@ char game(void) {
 			current_mouse_player = &player2mouse;
 		}
 	}
+
+	/*if (quitted == 0) {
+		while (1) {
+
+		}
+	}*/
+
+	UnloadTexture(mid1);
+	UnloadTexture(mid2);
+	UnloadTexture(mid3);
+	UnloadTexture(mid4);
+	UnloadTexture(mid5);
+	UnloadTexture(mid6);
+	UnloadTexture(mid7);
+	UnloadTexture(midp1fare);
+	UnloadTexture(midp1kedi);
+
+	UnloadTexture(count3);
+	UnloadTexture(count2);
+	UnloadTexture(count1);
+	UnloadTexture(countgo);
+
+	UnloadTexture(stamina_p1_0);
+	UnloadTexture(stamina_p1_1);
+	UnloadTexture(stamina_p1_2);
+	UnloadTexture(stamina_p1_3);
+	UnloadTexture(stamina_p1_4);
+	UnloadTexture(stamina_p1_5);
+
+	UnloadTexture(stamina_p2_0);
+	UnloadTexture(stamina_p2_1);
+	UnloadTexture(stamina_p2_2);
+	UnloadTexture(stamina_p2_3);
+	UnloadTexture(stamina_p2_4);
+	UnloadTexture(stamina_p2_5);
+
+	UnloadTexture(p1p2);
+	UnloadTexture(cat_p1);
+	UnloadTexture(mouse_p1);
+	UnloadTexture(cheese_texture);
 	UnloadTexture(bg);
 	UnloadFont(defont);
 	delete_DA(walls);
+
+	ShowCursor();
+
 	return 0;
 }

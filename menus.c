@@ -32,7 +32,7 @@ char mainmenu(void) {
 
 	char result = 0;
 
-	Texture2D bg = LoadTexture("data/ck.png");
+	Texture2D bg = LoadTexture("data/bg.png");
 
 	Texture2D vsmode0 = LoadTexture("data/main_menu_buttons/vsmode0.png");
 	Texture2D vsmode1 = LoadTexture("data/main_menu_buttons/vsmode1.png");

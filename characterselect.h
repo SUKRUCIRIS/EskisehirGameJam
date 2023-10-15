@@ -47,3 +47,5 @@ void initcharacterstarts(void);
 void destroycharacterstarts(void);
 
 char selectscreen(void);
+
+void noselectscreen(void);

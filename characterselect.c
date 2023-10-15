@@ -314,3 +314,10 @@ char selectscreen(void) {
 		}
 	}
 }
+
+void noselectscreen(void) {
+	player1.cat = &whitecat;
+	player1.mouse = &whitemouse;
+	player2.cat = &whitecat;
+	player2.mouse = &whitemouse;
+}

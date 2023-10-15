@@ -34,16 +34,9 @@ int main() {
 		}
 		else if (x == 0) {
 			initcharacterstarts();
-			x = selectscreen();
-
-			if (x == 0) {
-
-				x = game();
-				destroycharacterstarts();
-			}
-			else {
-				destroycharacterstarts();
-			}
+			noselectscreen();
+			x = game();
+			destroycharacterstarts();
 		}
 
 	}
