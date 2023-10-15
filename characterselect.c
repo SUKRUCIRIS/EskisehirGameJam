@@ -1,5 +1,510 @@
 #include "characterselect.h"
 
+Texture2D catidledown;
+Texture2D catidleup;
+Texture2D catidleleft;
+Texture2D catidleright;
+
+Texture2D catrundown;
+Texture2D catrunup;
+Texture2D catrunleft;
+Texture2D catrunright;
+
+Texture2D mouserundown;
+Texture2D mouserunup;
+Texture2D mouserunleft;
+Texture2D mouserunright;
+
+Texture2D mouseidledown;
+Texture2D mouseidleup;
+Texture2D mouseidleleft;
+Texture2D mouseidleright;
+
+DA* cat1_src = 0;
+DA* cat2_src = 0;
+DA* mouse1_src = 0;
+DA* mouse2_src = 0;
+
+animation catidledown_anim = {
+	.maintexture = &catidledown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidleup_anim = {
+	.maintexture = &catidleup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidleleft_anim = {
+	.maintexture = &catidleleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidleright_anim = {
+	.maintexture = &catidleright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrundown_anim = {
+	.maintexture = &catrundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrunup_anim = {
+	.maintexture = &catrunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrunleft_anim = {
+	.maintexture = &catrunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrunright_anim = {
+	.maintexture = &catrunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashdown_anim = {
+	.maintexture = &catrundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashup_anim = {
+	.maintexture = &catrunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashleft_anim = {
+	.maintexture = &catrunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashright_anim = {
+	.maintexture = &catrunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidledown_anim = {
+	.maintexture = &mouseidledown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidleup_anim = {
+	.maintexture = &mouseidleup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidleleft_anim = {
+	.maintexture = &mouseidleleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidleright_anim = {
+	.maintexture = &mouseidleright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserundown_anim = {
+	.maintexture = &mouserundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserunup_anim = {
+	.maintexture = &mouserunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserunleft_anim = {
+	.maintexture = &mouserunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserunright_anim = {
+	.maintexture = &mouserunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashdown_anim = {
+	.maintexture = &mouserundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashup_anim = {
+	.maintexture = &mouserunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashleft_anim = {
+	.maintexture = &mouserunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashright_anim = {
+	.maintexture = &mouserunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidledown_anim2 = {
+	.maintexture = &catidledown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidleup_anim2 = {
+	.maintexture = &catidleup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidleleft_anim2 = {
+	.maintexture = &catidleleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catidleright_anim2 = {
+	.maintexture = &catidleright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrundown_anim2 = {
+	.maintexture = &catrundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrunup_anim2 = {
+	.maintexture = &catrunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrunleft_anim2 = {
+	.maintexture = &catrunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catrunright_anim2 = {
+	.maintexture = &catrunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashdown_anim2 = {
+	.maintexture = &catrundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashup_anim2 = {
+	.maintexture = &catrunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashleft_anim2 = {
+	.maintexture = &catrunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation catdashright_anim2 = {
+	.maintexture = &catrunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidledown_anim2 = {
+	.maintexture = &mouseidledown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidleup_anim2 = {
+	.maintexture = &mouseidleup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidleleft_anim2 = {
+	.maintexture = &mouseidleleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouseidleright_anim2 = {
+	.maintexture = &mouseidleright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserundown_anim2 = {
+	.maintexture = &mouserundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserunup_anim2 = {
+	.maintexture = &mouserunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserunleft_anim2 = {
+	.maintexture = &mouserunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mouserunright_anim2 = {
+	.maintexture = &mouserunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashdown_anim2 = {
+	.maintexture = &mouserundown,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashup_anim2 = {
+	.maintexture = &mouserunup,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashleft_anim2 = {
+	.maintexture = &mouserunleft,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
+animation mousedashright_anim2 = {
+	.maintexture = &mouserunright,
+	.dest = 0,
+	.disabled = 1,
+	.framedurationms = 120,
+	.animationstartms = 0,
+	.sourcerects = 0,
+	.collisiondimensions = {0}
+};
+
 player player1 = {
 	.number = 1,
 	.cat = 0,
@@ -21,7 +526,43 @@ characterstart whitecat = {
 	.dashcost = 100,
 	.dashdurationms = 300,
 	.type = 0,
-	.name = "Tom"
+	.name = "Tom",
+	.idledown = &catidledown_anim,
+	.idleup = &catidleup_anim,
+	.idleleft = &catidleleft_anim,
+	.idleright = &catidleright_anim,
+	.dashdown = &catdashdown_anim,
+	.dashup = &catdashup_anim,
+	.dashleft = &catdashleft_anim,
+	.dashright = &catdashright_anim,
+	.walkdown = &catrundown_anim,
+	.walkup = &catrunup_anim,
+	.walkleft = &catrunleft_anim,
+	.walkright = &catrunright_anim
+};
+
+characterstart whitecat2 = {
+	.maxspeed = 6,
+	.accel = 20,
+	.maxstamina = 100,
+	.staminaregen = 60,
+	.dashspeed = 15,
+	.dashcost = 100,
+	.dashdurationms = 300,
+	.type = 0,
+	.name = "Tom",
+	.idledown = &catidledown_anim2,
+	.idleup = &catidleup_anim2,
+	.idleleft = &catidleleft_anim2,
+	.idleright = &catidleright_anim2,
+	.dashdown = &catdashdown_anim2,
+	.dashup = &catdashup_anim2,
+	.dashleft = &catdashleft_anim2,
+	.dashright = &catdashright_anim2,
+	.walkdown = &catrundown_anim2,
+	.walkup = &catrunup_anim2,
+	.walkleft = &catrunleft_anim2,
+	.walkright = &catrunright_anim2
 };
 
 characterstart blackcat = {
@@ -45,7 +586,43 @@ characterstart whitemouse = {
 	.dashcost = 100,
 	.dashdurationms = 100,
 	.type = 1,
-	.name = "Jerry"
+	.name = "Jerry",
+	.idledown = &mouseidledown_anim,
+	.idleup = &mouseidleup_anim,
+	.idleleft = &mouseidleleft_anim,
+	.idleright = &mouseidleright_anim,
+	.dashdown = &mousedashdown_anim,
+	.dashup = &mousedashup_anim,
+	.dashleft = &mousedashleft_anim,
+	.dashright = &mousedashright_anim,
+	.walkdown = &mouserundown_anim,
+	.walkup = &mouserunup_anim,
+	.walkleft = &mouserunleft_anim,
+	.walkright = &mouserunright_anim
+};
+
+characterstart whitemouse2 = {
+	.maxspeed = 8,
+	.accel = 25,
+	.maxstamina = 100,
+	.staminaregen = 75,
+	.dashspeed = 17,
+	.dashcost = 100,
+	.dashdurationms = 100,
+	.type = 1,
+	.name = "Jerry",
+	.idledown = &mouseidledown_anim2,
+	.idleup = &mouseidleup_anim2,
+	.idleleft = &mouseidleleft_anim2,
+	.idleright = &mouseidleright_anim2,
+	.dashdown = &mousedashdown_anim2,
+	.dashup = &mousedashup_anim2,
+	.dashleft = &mousedashleft_anim2,
+	.dashright = &mousedashright_anim2,
+	.walkdown = &mouserundown_anim2,
+	.walkup = &mouserunup_anim2,
+	.walkleft = &mouserunleft_anim2,
+	.walkright = &mouserunright_anim2
 };
 
 characterstart blackmouse = {
@@ -85,25 +662,190 @@ player* get_player2(void) {
 }
 
 void initcharacterstarts(void) {
-	whitecat.portrait = LoadTexture("data/portraits/cat.png");
-	whitecat.portraitsrc.x = 0; whitecat.portraitsrc.y = 0;
-	whitecat.portraitsrc.width = 64; whitecat.portraitsrc.height = 64;
-	blackcat.portrait = LoadTexture("data/portraits/cat2.png");
-	blackcat.portraitsrc.x = 0; blackcat.portraitsrc.y = 0;
-	blackcat.portraitsrc.width = 661; blackcat.portraitsrc.height = 571;
-	whitemouse.portrait = LoadTexture("data/portraits/mouse.png");
-	whitemouse.portraitsrc.x = 0; whitemouse.portraitsrc.y = 0;
-	whitemouse.portraitsrc.width = 534; whitemouse.portraitsrc.height = 459;
-	blackmouse.portrait = LoadTexture("data/portraits/mouse2.png");
-	blackmouse.portraitsrc.x = 0; blackmouse.portraitsrc.y = 0;
-	blackmouse.portraitsrc.width = 320; blackmouse.portraitsrc.height = 320;
+	catidledown = LoadTexture("data/cat_anim/idledown.png");
+	catidleup = LoadTexture("data/cat_anim/idleup.png");
+	catidleleft = LoadTexture("data/cat_anim/idleleft.png");
+	catidleright = LoadTexture("data/cat_anim/idleright.png");
+
+	catrundown = LoadTexture("data/cat_anim/rundown.png");
+	catrunup = LoadTexture("data/cat_anim/runup.png");
+	catrunleft = LoadTexture("data/cat_anim/runleft.png");
+	catrunright = LoadTexture("data/cat_anim/runright.png");
+
+	mouserundown = LoadTexture("data/mouse_anim/rundown.png");
+	mouserunup = LoadTexture("data/mouse_anim/runup.png");
+	mouserunleft = LoadTexture("data/mouse_anim/runleft.png");
+	mouserunright = LoadTexture("data/mouse_anim/runright.png");
+
+	mouseidledown = LoadTexture("data/mouse_anim/idledown.png");
+	mouseidleup = LoadTexture("data/mouse_anim/idleup.png");
+	mouseidleleft = LoadTexture("data/mouse_anim/idleleft.png");
+	mouseidleright = LoadTexture("data/mouse_anim/idleright.png");
+
+	cat1_src = create_DA(sizeof(Rectangle));
+	cat2_src = create_DA(sizeof(Rectangle));
+	mouse1_src = create_DA(sizeof(Rectangle));
+	mouse2_src = create_DA(sizeof(Rectangle));
+	Rectangle x = { 0,0,64,64 };
+	Rectangle y = { 64,0,64,64 };
+	pushback_DA(cat1_src, &x);
+	pushback_DA(cat2_src, &x);
+	pushback_DA(cat2_src, &y);
+	x.width = 48;
+	x.height = 48;
+	y.x = 48;
+	y.width = 48;
+	y.height = 48;
+	pushback_DA(mouse1_src, &x);
+	pushback_DA(mouse2_src, &x);
+	pushback_DA(mouse2_src, &y);
+
+	whitecat.idledown->sourcerects = cat1_src;
+	whitecat.idleup->sourcerects = cat1_src;
+	whitecat.idleleft->sourcerects = cat1_src;
+	whitecat.idleright->sourcerects = cat1_src;
+
+	whitecat.dashdown->sourcerects = cat1_src;
+	whitecat.dashup->sourcerects = cat1_src;
+	whitecat.dashleft->sourcerects = cat1_src;
+	whitecat.dashright->sourcerects = cat1_src;
+
+	whitecat.walkdown->sourcerects = cat2_src;
+	whitecat.walkup->sourcerects = cat2_src;
+	whitecat.walkleft->sourcerects = cat2_src;
+	whitecat.walkright->sourcerects = cat2_src;
+
+	whitemouse.idledown->sourcerects = mouse1_src;
+	whitemouse.idleup->sourcerects = mouse1_src;
+	whitemouse.idleleft->sourcerects = mouse1_src;
+	whitemouse.idleright->sourcerects = mouse1_src;
+
+	whitemouse.dashdown->sourcerects = mouse1_src;
+	whitemouse.dashup->sourcerects = mouse1_src;
+	whitemouse.dashleft->sourcerects = mouse1_src;
+	whitemouse.dashright->sourcerects = mouse1_src;
+
+	whitemouse.walkdown->sourcerects = mouse2_src;
+	whitemouse.walkup->sourcerects = mouse2_src;
+	whitemouse.walkleft->sourcerects = mouse2_src;
+	whitemouse.walkright->sourcerects = mouse2_src;
+
+	whitecat2.idledown->sourcerects = cat1_src;
+	whitecat2.idleup->sourcerects = cat1_src;
+	whitecat2.idleleft->sourcerects = cat1_src;
+	whitecat2.idleright->sourcerects = cat1_src;
+
+	whitecat2.dashdown->sourcerects = cat1_src;
+	whitecat2.dashup->sourcerects = cat1_src;
+	whitecat2.dashleft->sourcerects = cat1_src;
+	whitecat2.dashright->sourcerects = cat1_src;
+
+	whitecat2.walkdown->sourcerects = cat2_src;
+	whitecat2.walkup->sourcerects = cat2_src;
+	whitecat2.walkleft->sourcerects = cat2_src;
+	whitecat2.walkright->sourcerects = cat2_src;
+
+	whitemouse2.idledown->sourcerects = mouse1_src;
+	whitemouse2.idleup->sourcerects = mouse1_src;
+	whitemouse2.idleleft->sourcerects = mouse1_src;
+	whitemouse2.idleright->sourcerects = mouse1_src;
+
+	whitemouse2.dashdown->sourcerects = mouse1_src;
+	whitemouse2.dashup->sourcerects = mouse1_src;
+	whitemouse2.dashleft->sourcerects = mouse1_src;
+	whitemouse2.dashright->sourcerects = mouse1_src;
+
+	whitemouse2.walkdown->sourcerects = mouse2_src;
+	whitemouse2.walkup->sourcerects = mouse2_src;
+	whitemouse2.walkleft->sourcerects = mouse2_src;
+	whitemouse2.walkright->sourcerects = mouse2_src;
+
+	AddAnimationCustom(whitecat.idledown);
+	AddAnimationCustom(whitecat.idleup);
+	AddAnimationCustom(whitecat.idleleft);
+	AddAnimationCustom(whitecat.idleright);
+
+	AddAnimationCustom(whitecat.dashdown);
+	AddAnimationCustom(whitecat.dashup);
+	AddAnimationCustom(whitecat.dashleft);
+	AddAnimationCustom(whitecat.dashright);
+
+	AddAnimationCustom(whitecat.walkdown);
+	AddAnimationCustom(whitecat.walkup);
+	AddAnimationCustom(whitecat.walkleft);
+	AddAnimationCustom(whitecat.walkright);
+
+	AddAnimationCustom(whitemouse.idledown);
+	AddAnimationCustom(whitemouse.idleup);
+	AddAnimationCustom(whitemouse.idleleft);
+	AddAnimationCustom(whitemouse.idleright);
+
+	AddAnimationCustom(whitemouse.dashdown);
+	AddAnimationCustom(whitemouse.dashup);
+	AddAnimationCustom(whitemouse.dashleft);
+	AddAnimationCustom(whitemouse.dashright);
+
+	AddAnimationCustom(whitemouse.walkdown);
+	AddAnimationCustom(whitemouse.walkup);
+	AddAnimationCustom(whitemouse.walkleft);
+	AddAnimationCustom(whitemouse.walkright);
+
+	AddAnimationCustom(whitecat2.idledown);
+	AddAnimationCustom(whitecat2.idleup);
+	AddAnimationCustom(whitecat2.idleleft);
+	AddAnimationCustom(whitecat2.idleright);
+
+	AddAnimationCustom(whitecat2.dashdown);
+	AddAnimationCustom(whitecat2.dashup);
+	AddAnimationCustom(whitecat2.dashleft);
+	AddAnimationCustom(whitecat2.dashright);
+
+	AddAnimationCustom(whitecat2.walkdown);
+	AddAnimationCustom(whitecat2.walkup);
+	AddAnimationCustom(whitecat2.walkleft);
+	AddAnimationCustom(whitecat2.walkright);
+
+	AddAnimationCustom(whitemouse2.idledown);
+	AddAnimationCustom(whitemouse2.idleup);
+	AddAnimationCustom(whitemouse2.idleleft);
+	AddAnimationCustom(whitemouse2.idleright);
+
+	AddAnimationCustom(whitemouse2.dashdown);
+	AddAnimationCustom(whitemouse2.dashup);
+	AddAnimationCustom(whitemouse2.dashleft);
+	AddAnimationCustom(whitemouse2.dashright);
+
+	AddAnimationCustom(whitemouse2.walkdown);
+	AddAnimationCustom(whitemouse2.walkup);
+	AddAnimationCustom(whitemouse2.walkleft);
+	AddAnimationCustom(whitemouse2.walkright);
 }
 
 void destroycharacterstarts(void) {
-	UnloadTexture(whitecat.portrait);
-	UnloadTexture(blackcat.portrait);
-	UnloadTexture(whitemouse.portrait);
-	UnloadTexture(blackmouse.portrait);
+	UnloadTexture(catidledown);
+	UnloadTexture(catidleup);
+	UnloadTexture(catidleleft);
+	UnloadTexture(catidleright);
+
+	UnloadTexture(catrundown);
+	UnloadTexture(catrunup);
+	UnloadTexture(catrunleft);
+	UnloadTexture(catrunright);
+
+	UnloadTexture(mouserundown);
+	UnloadTexture(mouserunup);
+	UnloadTexture(mouserunleft);
+	UnloadTexture(mouserunright);
+
+	UnloadTexture(mouseidledown);
+	UnloadTexture(mouseidleup);
+	UnloadTexture(mouseidleleft);
+	UnloadTexture(mouseidleright);
+
+	delete_DA(cat1_src);
+	delete_DA(cat2_src);
+	delete_DA(mouse1_src);
+	delete_DA(mouse2_src);
 }
 
 char selectscreen(void) {
@@ -318,6 +1060,6 @@ char selectscreen(void) {
 void noselectscreen(void) {
 	player1.cat = &whitecat;
 	player1.mouse = &whitemouse;
-	player2.cat = &whitecat;
-	player2.mouse = &whitemouse;
+	player2.cat = &whitecat2;
+	player2.mouse = &whitemouse2;
 }

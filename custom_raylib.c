@@ -8,6 +8,8 @@ Vector2 virtualres = { 0 };
 
 DA* animations;
 
+Sound click;
+
 void InitRaylibCustom(int virtualwidth, int virtualheight) {
 	virtualres.x = (float)virtualwidth;
 	virtualres.y = (float)virtualheight;
@@ -23,11 +25,12 @@ void InitRaylibCustom(int virtualwidth, int virtualheight) {
 	targetdest.height = (float)GetRenderHeight();
 
 	animations = create_DA(sizeof(animation*));
+	click= LoadSound("data/bibip.wav");
 }
 
 void CloseRaylibCustom(void) {
 	UnloadRenderTexture(target);
-
+	UnloadSound(click);
 	delete_DA(animations);
 }
 
@@ -95,6 +98,7 @@ char RenderButtonImageCustom(buttonImage* b) {
 			origin.y = 0;
 			DrawTexturePro(*b->clickedimage, *b->srcclicked, *b->renderposition, origin, 0, WHITE);
 			if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+				PlaySound(click);
 				return 1;
 			}
 		}

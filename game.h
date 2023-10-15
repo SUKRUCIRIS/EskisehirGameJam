@@ -15,6 +15,7 @@ typedef struct character {
 	double dashingendms;
 	char player;//1,2
 	char animselect;//1,...,9
+	char direction;//1,2,3,4
 }character;
 
 char game(void);

@@ -17,7 +17,10 @@ typedef struct characterstart {
 	animation* walkup;
 	animation* walkleft;
 	animation* walkright;
-	animation* idle;
+	animation* idledown;
+	animation* idleup;
+	animation* idleleft;
+	animation* idleright;
 	animation* dashdown;
 	animation* dashup;
 	animation* dashleft;

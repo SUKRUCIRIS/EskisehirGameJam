@@ -2,30 +2,49 @@
 #include "custom_raylib.h"
 
 void intro(void) {
-	Texture2D logo = LoadTexture("data/logos/sukruciris.png");
-	Rectangle logorect = { 760,200,400,400 };
-	Rectangle logosrc = { 0,0,11,11 };
-	Vector2 origin = { 0,0 };
-	Font myfont = LoadFontEx("data/x.ttf", 150, 0, 350);
-	Vector2 a = MeasureTextEx(myfont, u8"ÞÜKRÜ ÇÝRÝÞ ENGINE", 150, 0);
-	Color textc = { 255,255,255,0 };
-	a.x = (1920 - a.x) / 2;
-	a.y = 700;
-	for (int i = 0; i < 400; i++) {
+	Texture2D sc = LoadTexture("data/logos/sc.png");
+	Texture2D km = LoadTexture("data/logos/km.png");
+	Texture2D kagan = LoadTexture("data/logos/kagan.png");
+	Texture2D nesk = LoadTexture("data/logos/nesk.png");
+	for (int i = 0; i < 90; i++) {
 		BeginDrawingCustom();
-
-		ClearBackground(BLACK);
-		DrawTextEx(myfont, u8"ÞÜKRÜ ÇÝRÝÞ ENGINE", a, 150, 0, textc);
-		DrawTexturePro(logo, logosrc, logorect, origin, 0, textc);
-
+		DrawTexture(sc, 0, 0, WHITE);
 		EndDrawingCustom();
-		if (i < 127) {
-			textc.a += 2;
-		}
-		else if (i > 273) {
-			textc.a -= 2;
-		}
 	}
+	for (int i = 0; i < 6; i++) {
+		BeginDrawingCustom();
+		ClearBackground(BLACK);
+		EndDrawingCustom();
+	}
+	for (int i = 0; i < 90; i++) {
+		BeginDrawingCustom();
+		DrawTexture(kagan, 0, 0, WHITE);
+		EndDrawingCustom();
+	}
+	for (int i = 0; i < 6; i++) {
+		BeginDrawingCustom();
+		ClearBackground(BLACK);
+		EndDrawingCustom();
+	}
+	for (int i = 0; i < 90; i++) {
+		BeginDrawingCustom();
+		DrawTexture(nesk, 0, 0, WHITE);
+		EndDrawingCustom();
+	}
+	for (int i = 0; i < 6; i++) {
+		BeginDrawingCustom();
+		ClearBackground(BLACK);
+		EndDrawingCustom();
+	}
+	for (int i = 0; i < 90; i++) {
+		BeginDrawingCustom();
+		DrawTexture(km, 0, 0, WHITE);
+		EndDrawingCustom();
+	}
+	UnloadTexture(sc);
+	UnloadTexture(km);
+	UnloadTexture(kagan);
+	UnloadTexture(nesk);
 }
 
 char mainmenu(void) {
@@ -100,7 +119,14 @@ char mainmenu(void) {
 		.clickposition= {730,652,454,75}
 	};
 
+	Texture2D creditsx = LoadTexture("data/logos/kredi.png");
+
+	Music music = LoadMusicStream("data/musics/mtless.mp3");
+
+	PlayMusicStream(music);
+
 	while (1) {
+		UpdateMusicStream(music);
 		BeginDrawingCustom();
 
 		ClearBackground(BLACK);
@@ -115,7 +141,13 @@ char mainmenu(void) {
 
 		RenderButtonImageCustom(&online);
 		
-		RenderButtonImageCustom(&credits);
+		if (RenderButtonImageCustom(&credits)) {
+			while (!IsKeyPressed(KEY_ESCAPE)) {
+				BeginDrawingCustom();
+				DrawTexture(creditsx, 0, 0, WHITE);
+				EndDrawingCustom();
+			}
+		}
 
 		if (RenderButtonImageCustom(&exit)) {
 			result = 1;
@@ -125,6 +157,10 @@ char mainmenu(void) {
 
 		EndDrawingCustom();
 	}
+
+	StopMusicStream(music);
+
+	UnloadMusicStream(music);
 
 	UnloadTexture(bg);
 
@@ -143,6 +179,8 @@ char mainmenu(void) {
 	UnloadTexture(credits0);
 	UnloadTexture(credits1);
 	UnloadTexture(credits2);
+
+	UnloadTexture(creditsx);
 
 	return result;
 }

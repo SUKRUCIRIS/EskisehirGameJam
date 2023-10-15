@@ -74,24 +74,28 @@ void inputCharacter(character* x, char playernum) {
 		if (x->dashing == 0) {
 			if (IsKeyDown(KEY_W)) {
 				x->yspeed -= x->stats->accel * GetFrameTime();
+				x->direction = 1;
 			}
 			else if (x->yspeed < 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_S)) {
 				x->yspeed += x->stats->accel * GetFrameTime();
+				x->direction = 2;
 			}
 			else if (x->yspeed > 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_A)) {
 				x->xspeed -= x->stats->accel * GetFrameTime();
+				x->direction = 3;
 			}
 			else if (x->xspeed < 0) {
 				x->xspeed = 0;
 			}
 			if (IsKeyDown(KEY_D)) {
 				x->xspeed += x->stats->accel * GetFrameTime();
+				x->direction = 4;
 			}
 			else if (x->xspeed > 0) {
 				x->xspeed = 0;
@@ -107,24 +111,28 @@ void inputCharacter(character* x, char playernum) {
 		if (x->dashing == 0) {
 			if (IsKeyDown(KEY_UP)) {
 				x->yspeed -= x->stats->accel * GetFrameTime();
+				x->direction = 1;
 			}
 			else if (x->yspeed < 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_DOWN)) {
 				x->yspeed += x->stats->accel * GetFrameTime();
+				x->direction = 2;
 			}
 			else if (x->yspeed > 0) {
 				x->yspeed = 0;
 			}
 			if (IsKeyDown(KEY_LEFT)) {
 				x->xspeed -= x->stats->accel * GetFrameTime();
+				x->direction = 3;
 			}
 			else if (x->xspeed < 0) {
 				x->xspeed = 0;
 			}
 			if (IsKeyDown(KEY_RIGHT)) {
 				x->xspeed += x->stats->accel * GetFrameTime();
+				x->direction = 4;
 			}
 			else if (x->xspeed > 0) {
 				x->xspeed = 0;
@@ -153,7 +161,65 @@ void inputCharacter(character* x, char playernum) {
 }
 
 void renderCharacter(character* x) {
-	DrawTexturePro(x->stats->portrait, x->stats->portraitsrc, x->position, origingame, 0, WHITE);
+	x->stats->dashdown->disabled = 1;
+	x->stats->dashup->disabled = 1;
+	x->stats->dashleft->disabled = 1;
+	x->stats->dashright->disabled = 1;
+
+	x->stats->walkdown->disabled = 1;
+	x->stats->walkup->disabled = 1;
+	x->stats->walkleft->disabled = 1;
+	x->stats->walkright->disabled = 1;
+
+	x->stats->idledown->disabled = 1;
+	x->stats->idleup->disabled = 1;
+	x->stats->idleleft->disabled = 1;
+	x->stats->idleright->disabled = 1;
+
+	if (x->direction == 1) {
+		if (x->dashing) {
+			x->stats->dashup->disabled = 0;
+		}
+		else if (x->xspeed != 0 || x->yspeed) {
+			x->stats->walkup->disabled = 0;
+		}
+		else {
+			x->stats->idleup->disabled = 0;
+		}
+	}
+	else if (x->direction == 2) {
+		if (x->dashing) {
+			x->stats->dashdown->disabled = 0;
+		}
+		else if (x->xspeed != 0 || x->yspeed) {
+			x->stats->walkdown->disabled = 0;
+		}
+		else {
+			x->stats->idledown->disabled = 0;
+		}
+	}
+	else if (x->direction == 3) {
+		if (x->dashing) {
+			x->stats->dashleft->disabled = 0;
+		}
+		else if (x->xspeed != 0 || x->yspeed) {
+			x->stats->walkleft->disabled = 0;
+		}
+		else {
+			x->stats->idleleft->disabled = 0;
+		}
+	}
+	else if (x->direction == 4) {
+		if (x->dashing) {
+			x->stats->dashright->disabled = 0;
+		}
+		else if (x->xspeed != 0 || x->yspeed) {
+			x->stats->walkright->disabled = 0;
+		}
+		else {
+			x->stats->idleright->disabled = 0;
+		}
+	}
 }
 
 char game(void) {
@@ -164,6 +230,10 @@ char game(void) {
 	float arenay = 229;
 	float arenawidth = 894;
 	float arenaheight = 779;
+
+	Music music = LoadMusicStream("data/musics/mt.mp3");
+
+	PlayMusicStream(music);
 
 	Rectangle arenaleft = { arenax - 10,arenay,10,arenaheight };
 	Rectangle arenaright = { arenax + arenawidth,arenay,10,arenaheight };
@@ -186,7 +256,8 @@ char game(void) {
 		.dashing = 0,
 		.dashingstartms = 0,
 		.dashingendms = 0,
-		.player = 1
+		.player = 1,
+		.direction=1,
 	};
 
 	character player1mouse = {
@@ -200,7 +271,8 @@ char game(void) {
 		.dashing = 0,
 		.dashingstartms = 0,
 		.dashingendms = 0,
-		.player = 1
+		.player = 1,
+		.direction = 1,
 	};
 
 	character player2cat = {
@@ -214,7 +286,8 @@ char game(void) {
 		.dashing = 0,
 		.dashingstartms = 0,
 		.dashingendms = 0,
-		.player = 2
+		.player = 2,
+		.direction = 1,
 	};
 
 	character player2mouse = {
@@ -228,8 +301,69 @@ char game(void) {
 		.dashing = 0,
 		.dashingstartms = 0,
 		.dashingendms = 0,
-		.player = 2
+		.player = 2,
+		.direction = 1,
 	};
+
+	player1cat.stats->dashdown->dest = &player1cat.position;
+	player1cat.stats->dashup->dest = &player1cat.position;
+	player1cat.stats->dashleft->dest = &player1cat.position;
+	player1cat.stats->dashright->dest = &player1cat.position;
+
+	player1cat.stats->walkdown->dest = &player1cat.position;
+	player1cat.stats->walkup->dest = &player1cat.position;
+	player1cat.stats->walkleft->dest = &player1cat.position;
+	player1cat.stats->walkright->dest = &player1cat.position;
+
+	player1cat.stats->idledown->dest = &player1cat.position;
+	player1cat.stats->idleup->dest = &player1cat.position;
+	player1cat.stats->idleleft->dest = &player1cat.position;
+	player1cat.stats->idleright->dest = &player1cat.position;
+
+	player2cat.stats->dashdown->dest = &player2cat.position;
+	player2cat.stats->dashup->dest = &player2cat.position;
+	player2cat.stats->dashleft->dest = &player2cat.position;
+	player2cat.stats->dashright->dest = &player2cat.position;
+
+	player2cat.stats->walkdown->dest = &player2cat.position;
+	player2cat.stats->walkup->dest = &player2cat.position;
+	player2cat.stats->walkleft->dest = &player2cat.position;
+	player2cat.stats->walkright->dest = &player2cat.position;
+
+	player2cat.stats->idledown->dest = &player2cat.position;
+	player2cat.stats->idleup->dest = &player2cat.position;
+	player2cat.stats->idleleft->dest = &player2cat.position;
+	player2cat.stats->idleright->dest = &player2cat.position;
+
+	player1mouse.stats->dashdown->dest = &player1mouse.position;
+	player1mouse.stats->dashup->dest = &player1mouse.position;
+	player1mouse.stats->dashleft->dest = &player1mouse.position;
+	player1mouse.stats->dashright->dest = &player1mouse.position;
+
+	player1mouse.stats->walkdown->dest = &player1mouse.position;
+	player1mouse.stats->walkup->dest = &player1mouse.position;
+	player1mouse.stats->walkleft->dest = &player1mouse.position;
+	player1mouse.stats->walkright->dest = &player1mouse.position;
+
+	player1mouse.stats->idledown->dest = &player1mouse.position;
+	player1mouse.stats->idleup->dest = &player1mouse.position;
+	player1mouse.stats->idleleft->dest = &player1mouse.position;
+	player1mouse.stats->idleright->dest = &player1mouse.position;
+
+	player2mouse.stats->dashdown->dest = &player2mouse.position;
+	player2mouse.stats->dashup->dest = &player2mouse.position;
+	player2mouse.stats->dashleft->dest = &player2mouse.position;
+	player2mouse.stats->dashright->dest = &player2mouse.position;
+
+	player2mouse.stats->walkdown->dest = &player2mouse.position;
+	player2mouse.stats->walkup->dest = &player2mouse.position;
+	player2mouse.stats->walkleft->dest = &player2mouse.position;
+	player2mouse.stats->walkright->dest = &player2mouse.position;
+
+	player2mouse.stats->idledown->dest = &player2mouse.position;
+	player2mouse.stats->idleup->dest = &player2mouse.position;
+	player2mouse.stats->idleleft->dest = &player2mouse.position;
+	player2mouse.stats->idleright->dest = &player2mouse.position;
 
 	Texture2D bg = LoadTexture("data/ck.png");
 
@@ -398,6 +532,7 @@ char game(void) {
 		current_mouse_player->yspeed = 0;
 
 		while (1) {
+			UpdateMusicStream(music);
 			BeginDrawingCustom();
 
 			DrawTexture(bg, 0, 0, WHITE);
@@ -506,6 +641,10 @@ char game(void) {
 
 			physicCharacter(current_cat_player, walls);
 			physicCharacter(current_mouse_player, walls);
+
+			renderCharacter(current_cat_player);
+			renderCharacter(current_mouse_player);
+			DrawAnimationsCustom();
 
 			current_cat_player->stamina += current_cat_player->stats->staminaregen * GetFrameTime();
 			if (current_cat_player->stamina > current_cat_player->stats->maxstamina) {
@@ -680,8 +819,6 @@ char game(void) {
 				gatheredcheese++;
 				cheese3.x = -1000;
 			}
-			renderCharacter(current_cat_player);
-			renderCharacter(current_mouse_player);
 
 			EndDrawingCustom();
 		}
@@ -696,6 +833,65 @@ char game(void) {
 			current_cat_player = &player1cat;
 			current_mouse_player = &player2mouse;
 		}
+		player1cat.stats->dashdown->disabled = 1;
+		player1cat.stats->dashup->disabled = 1;
+		player1cat.stats->dashleft->disabled = 1;
+		player1cat.stats->dashright->disabled = 1;
+
+		player1cat.stats->walkdown->disabled = 1;
+		player1cat.stats->walkup->disabled = 1;
+		player1cat.stats->walkleft->disabled = 1;
+		player1cat.stats->walkright->disabled = 1;
+
+		player1cat.stats->idledown->disabled = 1;
+		player1cat.stats->idleup->disabled = 1;
+		player1cat.stats->idleleft->disabled = 1;
+		player1cat.stats->idleright->disabled = 1;
+
+		player2cat.stats->dashdown->disabled = 1;
+		player2cat.stats->dashup->disabled = 1;
+		player2cat.stats->dashleft->disabled = 1;
+		player2cat.stats->dashright->disabled = 1;
+
+		player2cat.stats->walkdown->disabled = 1;
+		player2cat.stats->walkup->disabled = 1;
+		player2cat.stats->walkleft->disabled = 1;
+		player2cat.stats->walkright->disabled = 1;
+
+		player2cat.stats->idledown->disabled = 1;
+		player2cat.stats->idleup->disabled = 1;
+		player2cat.stats->idleleft->disabled = 1;
+		player2cat.stats->idleright->disabled = 1;
+
+		player2mouse.stats->dashdown->disabled = 1;
+		player2mouse.stats->dashup->disabled = 1;
+		player2mouse.stats->dashleft->disabled = 1;
+		player2mouse.stats->dashright->disabled = 1;
+
+		player2mouse.stats->walkdown->disabled = 1;
+		player2mouse.stats->walkup->disabled = 1;
+		player2mouse.stats->walkleft->disabled = 1;
+		player2mouse.stats->walkright->disabled = 1;
+
+		player2mouse.stats->idledown->disabled = 1;
+		player2mouse.stats->idleup->disabled = 1;
+		player2mouse.stats->idleleft->disabled = 1;
+		player2mouse.stats->idleright->disabled = 1;
+
+		player1mouse.stats->dashdown->disabled = 1;
+		player1mouse.stats->dashup->disabled = 1;
+		player1mouse.stats->dashleft->disabled = 1;
+		player1mouse.stats->dashright->disabled = 1;
+
+		player1mouse.stats->walkdown->disabled = 1;
+		player1mouse.stats->walkup->disabled = 1;
+		player1mouse.stats->walkleft->disabled = 1;
+		player1mouse.stats->walkright->disabled = 1;
+
+		player1mouse.stats->idledown->disabled = 1;
+		player1mouse.stats->idleup->disabled = 1;
+		player1mouse.stats->idleleft->disabled = 1;
+		player1mouse.stats->idleright->disabled = 1;
 	}
 
 	/*if (quitted == 0) {
@@ -740,7 +936,10 @@ char game(void) {
 	UnloadTexture(bg);
 	UnloadFont(defont);
 	delete_DA(walls);
+	StopMusicStream(music);
 
+	UnloadMusicStream(music);
+	
 	ShowCursor();
 
 	return 0;
