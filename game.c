@@ -180,7 +180,7 @@ void renderCharacter(character* x) {
 		if (x->dashing) {
 			x->stats->dashup->disabled = 0;
 		}
-		else if (x->xspeed != 0 || x->yspeed) {
+		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkup->disabled = 0;
 		}
 		else {
@@ -191,7 +191,7 @@ void renderCharacter(character* x) {
 		if (x->dashing) {
 			x->stats->dashdown->disabled = 0;
 		}
-		else if (x->xspeed != 0 || x->yspeed) {
+		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkdown->disabled = 0;
 		}
 		else {
@@ -202,7 +202,7 @@ void renderCharacter(character* x) {
 		if (x->dashing) {
 			x->stats->dashleft->disabled = 0;
 		}
-		else if (x->xspeed != 0 || x->yspeed) {
+		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkleft->disabled = 0;
 		}
 		else {
@@ -213,7 +213,7 @@ void renderCharacter(character* x) {
 		if (x->dashing) {
 			x->stats->dashright->disabled = 0;
 		}
-		else if (x->xspeed != 0 || x->yspeed) {
+		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkright->disabled = 0;
 		}
 		else {
