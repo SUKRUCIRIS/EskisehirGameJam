@@ -257,7 +257,7 @@ char game(void) {
 		.dashingstartms = 0,
 		.dashingendms = 0,
 		.player = 1,
-		.direction=1,
+		.direction = 2,
 	};
 
 	character player1mouse = {
@@ -287,7 +287,7 @@ char game(void) {
 		.dashingstartms = 0,
 		.dashingendms = 0,
 		.player = 2,
-		.direction = 1,
+		.direction = 2,
 	};
 
 	character player2mouse = {
@@ -642,10 +642,6 @@ char game(void) {
 			physicCharacter(current_cat_player, walls);
 			physicCharacter(current_mouse_player, walls);
 
-			renderCharacter(current_cat_player);
-			renderCharacter(current_mouse_player);
-			DrawAnimationsCustom();
-
 			current_cat_player->stamina += current_cat_player->stats->staminaregen * GetFrameTime();
 			if (current_cat_player->stamina > current_cat_player->stats->maxstamina) {
 				current_cat_player->stamina = current_cat_player->stats->maxstamina;
@@ -684,65 +680,6 @@ char game(void) {
 			}
 			else if (current_mouse_player->player == 2) {
 				DrawTextEx(defont, "P2", mouseindicator, 20, 0, RED);
-			}
-
-			if (counting == 1 && i == 0) {
-				if (GetTime() - turnstart <= 1) {
-					DrawTexturePro(count3, screen, screen, origingame, 0, WHITE);
-				}
-				else if (GetTime() - turnstart <= 2) {
-					DrawTexturePro(count2, screen, screen, origingame, 0, WHITE);
-				}
-				else if (GetTime() - turnstart <= 3) {
-					DrawTexturePro(count1, screen, screen, origingame, 0, WHITE);
-				}
-				else if (GetTime() - turnstart <= 4) {
-					DrawTexturePro(countgo, screen, screen, origingame, 0, WHITE);
-				}
-				else {
-					counting = 0;
-				}
-			}
-			else if (counting == 1 && i != 0) {
-				if (i == 1) {
-					DrawTexturePro(mid1, screen, screen, origingame, 0, WHITE);
-				}
-				else if (i == 2) {
-					DrawTexturePro(mid2, screen, screen, origingame, 0, WHITE);
-				}
-				else if (i == 3) {
-					DrawTexturePro(mid3, screen, screen, origingame, 0, WHITE);
-				}
-				else if (i == 4) {
-					DrawTexturePro(mid4, screen, screen, origingame, 0, WHITE);
-				}
-				else if (i == 5) {
-					DrawTexturePro(mid5, screen, screen, origingame, 0, WHITE);
-				}
-				else if (i == 6) {
-					DrawTexturePro(mid6, screen, screen, origingame, 0, WHITE);
-				}
-				else if (i == 7) {
-					DrawTexturePro(mid7, screen, screen, origingame, 0, WHITE);
-				}
-				if (current_cat_player->player == 1) {
-					DrawTexturePro(midp1kedi, screen, screen, origingame, 0, WHITE);
-				}
-				else {
-					DrawTexturePro(midp1fare, screen, screen, origingame, 0, WHITE);
-				}
-				if (GetTime() - turnstart > 1) {
-					counting = 0;
-				}
-				sprintf(mid_p1_text, "%d", player1score);
-				sprintf(mid_p2_text, "%d", player2score);
-				mid_p1_pos = MeasureTextEx(defont, mid_p1_text, 300, 0);
-				mid_p1_pos.y = 450;
-				mid_p1_pos.x = 730 - mid_p1_pos.x;
-				DrawTextEx(defont, mid_p1_text, mid_p1_pos, 300, 0, WHITE);
-				mid_p2_pos.y = 450;
-				mid_p2_pos.x = 1195;
-				DrawTextEx(defont, mid_p2_text, mid_p2_pos, 300, 0, WHITE);
 			}
 
 			if (CheckCollisionRecs(current_mouse_player->collisionbox1, Door)) {
@@ -820,10 +757,70 @@ char game(void) {
 				cheese3.x = -1000;
 			}
 
+			renderCharacter(current_cat_player);
+			renderCharacter(current_mouse_player);
+			DrawAnimationsCustom();
+
+			if (counting == 1 && i == 0) {
+				if (GetTime() - turnstart <= 1) {
+					DrawTexturePro(count3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (GetTime() - turnstart <= 2) {
+					DrawTexturePro(count2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (GetTime() - turnstart <= 3) {
+					DrawTexturePro(count1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (GetTime() - turnstart <= 4) {
+					DrawTexturePro(countgo, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					counting = 0;
+				}
+			}
+			else if (counting == 1 && i != 0) {
+				if (i == 1) {
+					DrawTexturePro(mid1, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 2) {
+					DrawTexturePro(mid2, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 3) {
+					DrawTexturePro(mid3, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 4) {
+					DrawTexturePro(mid4, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 5) {
+					DrawTexturePro(mid5, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 6) {
+					DrawTexturePro(mid6, screen, screen, origingame, 0, WHITE);
+				}
+				else if (i == 7) {
+					DrawTexturePro(mid7, screen, screen, origingame, 0, WHITE);
+				}
+				if (current_cat_player->player == 1) {
+					DrawTexturePro(midp1kedi, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(midp1fare, screen, screen, origingame, 0, WHITE);
+				}
+				if (GetTime() - turnstart > 1) {
+					counting = 0;
+				}
+				sprintf(mid_p1_text, "%d", player1score);
+				sprintf(mid_p2_text, "%d", player2score);
+				mid_p1_pos = MeasureTextEx(defont, mid_p1_text, 300, 0);
+				mid_p1_pos.y = 450;
+				mid_p1_pos.x = 730 - mid_p1_pos.x;
+				DrawTextEx(defont, mid_p1_text, mid_p1_pos, 300, 0, WHITE);
+				mid_p2_pos.y = 450;
+				mid_p2_pos.x = 1195;
+				DrawTextEx(defont, mid_p2_text, mid_p2_pos, 300, 0, WHITE);
+			}
+
 			EndDrawingCustom();
-		}
-		if (quitted == 1) {
-			break;
 		}
 		if (current_cat_player == &player1cat) {
 			current_cat_player = &player2cat;
@@ -892,6 +889,9 @@ char game(void) {
 		player1mouse.stats->idleup->disabled = 1;
 		player1mouse.stats->idleleft->disabled = 1;
 		player1mouse.stats->idleright->disabled = 1;
+		if (quitted == 1) {
+			break;
+		}
 	}
 
 	/*if (quitted == 0) {
@@ -939,7 +939,7 @@ char game(void) {
 	StopMusicStream(music);
 
 	UnloadMusicStream(music);
-	
+
 	ShowCursor();
 
 	return 0;
