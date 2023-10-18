@@ -6,7 +6,7 @@ void intro(void) {
 	Texture2D km = LoadTexture("data/logos/km.png");
 	Texture2D kagan = LoadTexture("data/logos/kagan.png");
 	Texture2D nesk = LoadTexture("data/logos/nesk.png");
-	for (int i = 0; i < 90; i++) {
+	for (int i = 0; i < 150; i++) {
 		BeginDrawingCustom();
 		DrawTexture(sc, 0, 0, WHITE);
 		EndDrawingCustom();

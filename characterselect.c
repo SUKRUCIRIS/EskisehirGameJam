@@ -32,7 +32,7 @@ animation catidledown_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,15,46,21}
 };
 
 animation catidleup_anim = {
@@ -42,7 +42,7 @@ animation catidleup_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,6,46,21}
 };
 
 animation catidleleft_anim = {
@@ -52,7 +52,7 @@ animation catidleleft_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {6,23,21,46}
 };
 
 animation catidleright_anim = {
@@ -62,7 +62,7 @@ animation catidleright_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,23,21,46}
 };
 
 animation catrundown_anim = {
@@ -72,7 +72,7 @@ animation catrundown_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,15,46,21}
 };
 
 animation catrunup_anim = {
@@ -82,7 +82,7 @@ animation catrunup_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,6,46,21}
 };
 
 animation catrunleft_anim = {
@@ -92,7 +92,7 @@ animation catrunleft_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {6,23,21,46}
 };
 
 animation catrunright_anim = {
@@ -102,7 +102,7 @@ animation catrunright_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,23,21,46}
 };
 
 animation catdashdown_anim = {
@@ -112,7 +112,7 @@ animation catdashdown_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,15,46,21}
 };
 
 animation catdashup_anim = {
@@ -122,7 +122,7 @@ animation catdashup_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,6,46,21}
 };
 
 animation catdashleft_anim = {
@@ -132,7 +132,7 @@ animation catdashleft_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {6,23,21,46}
 };
 
 animation catdashright_anim = {
@@ -142,7 +142,7 @@ animation catdashright_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,23,21,46}
 };
 
 animation mouseidledown_anim = {
@@ -152,7 +152,7 @@ animation mouseidledown_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,12,30,20}
 };
 
 animation mouseidleup_anim = {
@@ -162,7 +162,7 @@ animation mouseidleup_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,8,30,20}
 };
 
 animation mouseidleleft_anim = {
@@ -172,7 +172,7 @@ animation mouseidleleft_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {8,15,20,30}
 };
 
 animation mouseidleright_anim = {
@@ -182,7 +182,7 @@ animation mouseidleright_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {12,15,20,30}
 };
 
 animation mouserundown_anim = {
@@ -192,7 +192,7 @@ animation mouserundown_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,12,30,20}
 };
 
 animation mouserunup_anim = {
@@ -202,7 +202,7 @@ animation mouserunup_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,8,30,20}
 };
 
 animation mouserunleft_anim = {
@@ -212,7 +212,7 @@ animation mouserunleft_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {8,15,20,30}
 };
 
 animation mouserunright_anim = {
@@ -222,7 +222,7 @@ animation mouserunright_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {12,15,20,30}
 };
 
 animation mousedashdown_anim = {
@@ -232,7 +232,7 @@ animation mousedashdown_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,12,30,20}
 };
 
 animation mousedashup_anim = {
@@ -242,7 +242,7 @@ animation mousedashup_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,8,30,20}
 };
 
 animation mousedashleft_anim = {
@@ -252,7 +252,7 @@ animation mousedashleft_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {8,15,20,30}
 };
 
 animation mousedashright_anim = {
@@ -262,7 +262,7 @@ animation mousedashright_anim = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {12,15,20,30}
 };
 
 animation catidledown_anim2 = {
@@ -272,7 +272,7 @@ animation catidledown_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,15,46,21}
 };
 
 animation catidleup_anim2 = {
@@ -282,7 +282,7 @@ animation catidleup_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,6,46,21}
 };
 
 animation catidleleft_anim2 = {
@@ -292,7 +292,7 @@ animation catidleleft_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {6,23,21,46}
 };
 
 animation catidleright_anim2 = {
@@ -302,7 +302,7 @@ animation catidleright_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,23,21,46}
 };
 
 animation catrundown_anim2 = {
@@ -312,7 +312,7 @@ animation catrundown_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,15,46,21}
 };
 
 animation catrunup_anim2 = {
@@ -322,7 +322,7 @@ animation catrunup_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,6,46,21}
 };
 
 animation catrunleft_anim2 = {
@@ -332,7 +332,7 @@ animation catrunleft_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {6,23,21,46}
 };
 
 animation catrunright_anim2 = {
@@ -342,7 +342,7 @@ animation catrunright_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,23,21,46}
 };
 
 animation catdashdown_anim2 = {
@@ -352,7 +352,7 @@ animation catdashdown_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,15,46,21}
 };
 
 animation catdashup_anim2 = {
@@ -362,7 +362,7 @@ animation catdashup_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {23,6,46,21}
 };
 
 animation catdashleft_anim2 = {
@@ -372,7 +372,7 @@ animation catdashleft_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {6,23,21,46}
 };
 
 animation catdashright_anim2 = {
@@ -382,7 +382,7 @@ animation catdashright_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,23,21,46}
 };
 
 animation mouseidledown_anim2 = {
@@ -392,7 +392,7 @@ animation mouseidledown_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,12,30,20}
 };
 
 animation mouseidleup_anim2 = {
@@ -402,7 +402,7 @@ animation mouseidleup_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,8,30,20}
 };
 
 animation mouseidleleft_anim2 = {
@@ -412,7 +412,7 @@ animation mouseidleleft_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {8,15,20,30}
 };
 
 animation mouseidleright_anim2 = {
@@ -422,7 +422,7 @@ animation mouseidleright_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {12,15,20,30}
 };
 
 animation mouserundown_anim2 = {
@@ -432,7 +432,7 @@ animation mouserundown_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,12,30,20}
 };
 
 animation mouserunup_anim2 = {
@@ -442,7 +442,7 @@ animation mouserunup_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,8,30,20}
 };
 
 animation mouserunleft_anim2 = {
@@ -452,7 +452,7 @@ animation mouserunleft_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {8,15,20,30}
 };
 
 animation mouserunright_anim2 = {
@@ -462,7 +462,7 @@ animation mouserunright_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {12,15,20,30}
 };
 
 animation mousedashdown_anim2 = {
@@ -472,7 +472,7 @@ animation mousedashdown_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,12,30,20}
 };
 
 animation mousedashup_anim2 = {
@@ -482,7 +482,7 @@ animation mousedashup_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {15,8,30,20}
 };
 
 animation mousedashleft_anim2 = {
@@ -492,7 +492,7 @@ animation mousedashleft_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {8,15,20,30}
 };
 
 animation mousedashright_anim2 = {
@@ -502,7 +502,7 @@ animation mousedashright_anim2 = {
 	.framedurationms = 120,
 	.animationstartms = 0,
 	.sourcerects = 0,
-	.collisiondimensions = {0}
+	.collisiondimensions = {12,15,20,30}
 };
 
 player player1 = {

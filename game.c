@@ -41,6 +41,50 @@ void physicCharacter(character* x, DA* walls) {
 	float xstep = (x->xspeed / physicsloopnumber);
 	float ystep = (x->yspeed / physicsloopnumber);
 
+	Rectangle diff = { 0 };
+
+	if (x->animselect == 1) {
+		diff = x->stats->dashup->collisiondimensions;
+	}
+	else if (x->animselect == 2) {
+		diff = x->stats->walkup->collisiondimensions;
+	}
+	else if (x->animselect == 3) {
+		diff = x->stats->idleup->collisiondimensions;
+	}
+	else if (x->animselect == 4) {
+		diff = x->stats->dashdown->collisiondimensions;
+	}
+	else if (x->animselect == 5) {
+		diff = x->stats->walkdown->collisiondimensions;
+	}
+	else if (x->animselect == 6) {
+		diff = x->stats->idledown->collisiondimensions;
+	}
+	else if (x->animselect == 7) {
+		diff = x->stats->dashleft->collisiondimensions;
+	}
+	else if (x->animselect == 8) {
+		diff = x->stats->walkleft->collisiondimensions;
+	}
+	else if (x->animselect == 9) {
+		diff = x->stats->idleleft->collisiondimensions;
+	}
+	else if (x->animselect == 10) {
+		diff = x->stats->dashright->collisiondimensions;
+	}
+	else if (x->animselect == 11) {
+		diff = x->stats->walkright->collisiondimensions;
+	}
+	else if (x->animselect == 12) {
+		diff = x->stats->idleright->collisiondimensions;
+	}
+
+	x->collisionbox1.x = x->position.x + diff.x;
+	x->collisionbox1.y = x->position.y + diff.y;
+	x->collisionbox1.width = x->position.width - diff.width;
+	x->collisionbox1.height = x->position.height - diff.height;
+
 	for (int i = 0; i < physicsloopnumber; i++) {
 		x->collisionbox1.x += xstep;
 		x->collisionbox1.y += ystep;
@@ -52,8 +96,10 @@ void physicCharacter(character* x, DA* walls) {
 	x->collisionbox2.x = x->collisionbox1.x + (x->collisionbox1.width - x->collisionbox2.width) / 2;
 	x->collisionbox2.y = x->collisionbox1.y + (x->collisionbox1.height - x->collisionbox2.height) / 2;
 
-	x->position.x = x->collisionbox1.x + (x->collisionbox1.width - x->position.width) / 2;
-	x->position.y = x->collisionbox1.y + (x->collisionbox1.height - x->position.height) / 2;
+	x->position.x = x->collisionbox1.x - diff.x;
+	x->position.y = x->collisionbox1.y - diff.y;
+	x->position.width = x->collisionbox1.width + diff.width;
+	x->position.height = x->collisionbox1.height + diff.height;
 }
 
 void inputCharacter(character* x, char playernum) {
@@ -179,45 +225,57 @@ void renderCharacter(character* x) {
 	if (x->direction == 1) {
 		if (x->dashing) {
 			x->stats->dashup->disabled = 0;
+			x->animselect = 1;
 		}
 		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkup->disabled = 0;
+			x->animselect = 2;
 		}
 		else {
 			x->stats->idleup->disabled = 0;
+			x->animselect = 3;
 		}
 	}
 	else if (x->direction == 2) {
 		if (x->dashing) {
 			x->stats->dashdown->disabled = 0;
+			x->animselect = 4;
 		}
 		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkdown->disabled = 0;
+			x->animselect = 5;
 		}
 		else {
 			x->stats->idledown->disabled = 0;
+			x->animselect = 6;
 		}
 	}
 	else if (x->direction == 3) {
 		if (x->dashing) {
 			x->stats->dashleft->disabled = 0;
+			x->animselect = 7;
 		}
 		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkleft->disabled = 0;
+			x->animselect = 8;
 		}
 		else {
 			x->stats->idleleft->disabled = 0;
+			x->animselect = 9;
 		}
 	}
 	else if (x->direction == 4) {
 		if (x->dashing) {
 			x->stats->dashright->disabled = 0;
+			x->animselect = 10;
 		}
 		else if (x->xspeed != 0 || x->yspeed != 0) {
 			x->stats->walkright->disabled = 0;
+			x->animselect = 11;
 		}
 		else {
 			x->stats->idleright->disabled = 0;
+			x->animselect = 12;
 		}
 	}
 }
@@ -243,7 +301,7 @@ char game(void) {
 	Rectangle Door = { 918,188,77,44 };
 
 	Vector2 catstartpos = { (arenatop.width - 64) / 2 + arenatop.x,400 };
-	Vector2 mousestartpos = { (arenatop.width - 48) / 2 + arenatop.x,1000 };
+	Vector2 mousestartpos = { (arenatop.width - 48) / 2 + arenatop.x,950 };
 
 	character player1cat = {
 		.stats = get_player1()->cat,
@@ -258,6 +316,7 @@ char game(void) {
 		.dashingendms = 0,
 		.player = 1,
 		.direction = 2,
+		.animselect = 6
 	};
 
 	character player1mouse = {
@@ -273,6 +332,7 @@ char game(void) {
 		.dashingendms = 0,
 		.player = 1,
 		.direction = 1,
+		.animselect = 3
 	};
 
 	character player2cat = {
@@ -288,6 +348,7 @@ char game(void) {
 		.dashingendms = 0,
 		.player = 2,
 		.direction = 2,
+		.animselect = 6
 	};
 
 	character player2mouse = {
@@ -303,6 +364,7 @@ char game(void) {
 		.dashingendms = 0,
 		.player = 2,
 		.direction = 1,
+		.animselect = 3
 	};
 
 	player1cat.stats->dashdown->dest = &player1cat.position;
@@ -467,10 +529,14 @@ char game(void) {
 	double kedideadstatetime = 0;
 
 	for (int i = 0; i < 8; i++) {
-		current_cat_player->collisionbox1.x = catstartpos.x;
-		current_cat_player->collisionbox1.y = catstartpos.y;
-		current_mouse_player->collisionbox1.x = mousestartpos.x;
-		current_mouse_player->collisionbox1.y = mousestartpos.y;
+		current_cat_player->direction = 2;
+		current_cat_player->animselect = 6;
+		current_mouse_player->direction = 1;
+		current_mouse_player->animselect = 3;
+		current_cat_player->position.x = catstartpos.x;
+		current_cat_player->position.y = catstartpos.y;
+		current_mouse_player->position.x = mousestartpos.x;
+		current_mouse_player->position.y = mousestartpos.y;
 
 		bottomcheese = 0;
 

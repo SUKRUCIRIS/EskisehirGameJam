@@ -59,7 +59,7 @@ typedef struct animation {
 	Texture2D* maintexture;
 	DA* sourcerects;//Rectangle DA
 	Rectangle* dest;
-	Vector2 collisiondimensions;//the centered collision box dimensions in the dest render location for the animation batch
+	Rectangle collisiondimensions;//x diff, y diff, w diff, h diff from the texture dest rect
 	unsigned int framedurationms;
 	char disabled;
 	double animationstartms;
