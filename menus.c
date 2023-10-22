@@ -124,6 +124,7 @@ char mainmenu(void) {
 	Music music = LoadMusicStream("data/musics/mtless.mp3");
 
 	PlayMusicStream(music);
+	SetMusicVolume(music, 0.5f);
 
 	while (1) {
 		UpdateMusicStream(music);

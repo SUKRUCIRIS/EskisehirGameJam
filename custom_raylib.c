@@ -25,7 +25,7 @@ void InitRaylibCustom(int virtualwidth, int virtualheight) {
 	targetdest.height = (float)GetRenderHeight();
 
 	animations = create_DA(sizeof(animation*));
-	click= LoadSound("data/bibip.wav");
+	click= LoadSound("data/musics/bibip.mp3");
 	SetSoundVolume(click, 1);
 }
 

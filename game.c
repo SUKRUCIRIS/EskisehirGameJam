@@ -5,6 +5,13 @@
 
 Vector2 origingame = { 0,0 };
 
+Sound faredash;
+Sound kedidash;
+Sound faredeath1;
+Sound faredeath2;
+Sound faredeath3;
+Sound Kedi1;
+
 void collisionRes(Rectangle* dynamicr, Rectangle* staticr) {
 	if (CheckCollisionRecs(*dynamicr, *staticr)) {
 		float x1_overlap = max(dynamicr->x, staticr->x);
@@ -151,6 +158,12 @@ void inputCharacter(character* x, char playernum) {
 			x->dashing = 1;
 			x->dashingstartms = GetTime() * 1000;
 			x->stamina -= x->stats->dashcost;
+			if (x->stats->type == 0) {
+				PlaySound(kedidash);
+			}
+			else if (x->stats->type == 1) {
+				PlaySound(faredash);
+			}
 		}
 	}
 	else if (playernum == 2) {
@@ -189,6 +202,12 @@ void inputCharacter(character* x, char playernum) {
 			x->dashingstartms = GetTime() * 1000;
 			x->dashingendms = 0;
 			x->stamina -= x->stats->dashcost;
+			if (x->stats->type == 0) {
+				PlaySound(kedidash);
+			}
+			else if (x->stats->type == 1) {
+				PlaySound(faredash);
+			}
 		}
 	}
 
@@ -291,7 +310,22 @@ char game(void) {
 
 	Music music = LoadMusicStream("data/musics/mt.mp3");
 
+	faredash = LoadSound("data/musics/FareDash.mp3");
+	kedidash = LoadSound("data/musics/KediDash.mp3");
+	faredeath1 = LoadSound("data/musics/FareDeath1.mp3");
+	faredeath2 = LoadSound("data/musics/FareDeath2.mp3");
+	faredeath3 = LoadSound("data/musics/FareDeath3.mp3");
+	Kedi1 = LoadSound("data/musics/Kedi1.mp3");
+
+	SetSoundVolume(faredash, 1);
+	SetSoundVolume(kedidash, 1);
+	SetSoundVolume(faredeath1, 1);
+	SetSoundVolume(faredeath2, 1);
+	SetSoundVolume(faredeath3, 1);
+	SetSoundVolume(Kedi1, 1);
+
 	PlayMusicStream(music);
+	SetMusicVolume(music, 0.5f);
 
 	Rectangle arenaleft = { arenax - 10,arenay,10,arenaheight };
 	Rectangle arenaright = { arenax + arenawidth,arenay,10,arenaheight };
@@ -528,6 +562,8 @@ char game(void) {
 
 	double kedideadstatetime = 0;
 
+	char catwon_bool = 0;
+
 	for (int i = 0; i < 8; i++) {
 		current_cat_player->direction = 2;
 		current_cat_player->animselect = 6;
@@ -596,6 +632,8 @@ char game(void) {
 
 		current_mouse_player->xspeed = 0;
 		current_mouse_player->yspeed = 0;
+
+		SetMusicVolume(music, 0.25f);
 
 		while (1) {
 			UpdateMusicStream(music);
@@ -755,6 +793,7 @@ char game(void) {
 				if (current_mouse_player->player == 2) {
 					player2score += gatheredcheese;
 				}
+				catwon_bool = 0;
 				break;
 			}
 			if (CheckCollisionRecs(current_mouse_player->collisionbox1, current_cat_player->collisionbox1) && current_mouse_player->dashing == 0
@@ -765,6 +804,7 @@ char game(void) {
 				if (current_cat_player->player == 2) {
 					player2score += 3;
 				}
+				catwon_bool = 1;
 				break;
 			}
 			if (CheckCollisionRecs(bannedcatarea, current_cat_player->collisionbox1)) {
@@ -776,6 +816,7 @@ char game(void) {
 						if (current_mouse_player->player == 2) {
 							player2score += 3;
 						}
+						catwon_bool = 0;
 						break;
 					}
 					else {
@@ -888,13 +929,22 @@ char game(void) {
 
 			EndDrawingCustom();
 		}
-		if (current_cat_player == &player1cat) {
-			current_cat_player = &player2cat;
-			current_mouse_player = &player1mouse;
+		SetMusicVolume(music, 0.25f);
+		if (catwon_bool) {
+			int x = rand() % 3;
+			if (x == 0) {
+				PlaySound(faredeath1);
+			}
+			else if (x == 1) {
+				PlaySound(faredeath2);
+			}
+			else if (x == 2) {
+				PlaySound(faredeath3);
+			}
 		}
 		else {
-			current_cat_player = &player1cat;
-			current_mouse_player = &player2mouse;
+			PlaySound(Kedi1);
+
 		}
 		player1cat.stats->dashdown->disabled = 1;
 		player1cat.stats->dashup->disabled = 1;
@@ -958,13 +1008,115 @@ char game(void) {
 		if (quitted == 1) {
 			break;
 		}
+		else {
+			Texture2D catwon = LoadTexture("data/catwon.png");
+			Texture2D mousewon = LoadTexture("data/mousewon.png");
+			Texture2D mousewon_cat = LoadTexture("data/mousewon_cat.png");
+			Rectangle mousewoncat_src = { 0,0,76,44 };
+			Rectangle mousewoncat_des =
+			{ current_cat_player->position.x + (current_cat_player->position.width - mousewoncat_src.width) / 2,
+				current_cat_player->position.y + (current_cat_player->position.height - mousewoncat_src.height) / 2,
+				mousewoncat_src.width,
+				mousewoncat_src.height };
+			Rectangle catwon_src = { 0,0,63,69 };
+			Rectangle catwon_des =
+			{ current_cat_player->position.x + (current_cat_player->position.width - catwon_src.width) / 2,
+				current_cat_player->position.y + (current_cat_player->position.height - catwon_src.height) / 2,
+				catwon_src.width,
+				catwon_src.height };
+			for (int i2 = 0; i2 < 180; i2++) {
+				UpdateMusicStream(music);
+				BeginDrawingCustom();
+
+				DrawTexture(bg, 0, 0, WHITE);
+
+				if (current_cat_player->player == 1) {
+					DrawTexturePro(cat_p1, screen, screen, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(mouse_p1, screen, screen, origingame, 0, WHITE);
+				}
+
+				DrawTexturePro(p1p2, screen, screen, origingame, 0, WHITE);
+
+				if (catwon_bool) {
+					DrawTexturePro(catwon, catwon_src, catwon_des, origingame, 0, WHITE);
+				}
+				else {
+					DrawTexturePro(mousewon, screen, screen, origingame, 0, WHITE);
+					DrawTexturePro(mousewon_cat, mousewoncat_src, mousewoncat_des, origingame, 0, WHITE);
+				}
+
+				sprintf(player_score_text, "%d-%d", player1score, player2score);
+				sprintf(arena_number_text, "turn %d", i);
+
+				playerscorepos.x = MeasureTextEx(defont, player_score_text, 80, 0).x;
+				playerscorepos.x = (1920 - playerscorepos.x) / 2;
+				DrawTextEx(defont, player_score_text, playerscorepos, 80, 0, WHITE);
+
+				DrawTextEx(defont, arena_number_text, arena_number_pos, 50, 0, WHITE);
+
+				EndDrawingCustom();
+
+				if (i == 7 && i2 == 60) {
+					break;
+				}
+			}
+			UnloadTexture(catwon);
+			UnloadTexture(mousewon);
+			UnloadTexture(mousewon_cat);
+		}
+		if (current_cat_player == &player1cat) {
+			current_cat_player = &player2cat;
+			current_mouse_player = &player1mouse;
+		}
+		else {
+			current_cat_player = &player1cat;
+			current_mouse_player = &player2mouse;
+		}
 	}
 
-	/*if (quitted == 0) {
-		while (1) {
+	if (quitted == 0) {
+		for (int i2 = 0; i2 < 300; i2++) {
+			UpdateMusicStream(music);
+			BeginDrawingCustom();
 
+			DrawTexture(bg, 0, 0, WHITE);
+
+			if (current_cat_player->player == 1) {
+				DrawTexturePro(cat_p1, screen, screen, origingame, 0, WHITE);
+			}
+			else {
+				DrawTexturePro(mouse_p1, screen, screen, origingame, 0, WHITE);
+			}
+
+			DrawTexturePro(p1p2, screen, screen, origingame, 0, WHITE);
+
+			sprintf(player_score_text, "%d-%d", player1score, player2score);
+
+			if (player1score > player2score) {
+				sprintf(arena_number_text, "Player 1 Won");
+			}
+			else if (player2score > player1score) {
+				sprintf(arena_number_text, "Player 2 Won");
+			}
+			else {
+				sprintf(arena_number_text, "Draw");
+			}
+
+			playerscorepos.x = MeasureTextEx(defont, player_score_text, 200, 0).x;
+			playerscorepos.x = (1920 - playerscorepos.x) / 2;
+			playerscorepos.y = (1080 - playerscorepos.y) / 2 + 200;
+			DrawTextEx(defont, player_score_text, playerscorepos, 200, 0, WHITE);
+
+			arena_number_pos.x = MeasureTextEx(defont, arena_number_text, 100, 0).x;
+			arena_number_pos.x = (1920 - arena_number_pos.x) / 2;
+			arena_number_pos.y = playerscorepos.y + 200;
+			DrawTextEx(defont, arena_number_text, arena_number_pos, 100, 0, WHITE);
+
+			EndDrawingCustom();
 		}
-	}*/
+	}
 
 	UnloadTexture(mid1);
 	UnloadTexture(mid2);
@@ -1005,6 +1157,13 @@ char game(void) {
 	StopMusicStream(music);
 
 	UnloadMusicStream(music);
+
+	UnloadSound(faredash);
+	UnloadSound(kedidash);
+	UnloadSound(faredeath1);
+	UnloadSound(faredeath2);
+	UnloadSound(faredeath3);
+	UnloadSound(Kedi1);
 
 	ShowCursor();
 
